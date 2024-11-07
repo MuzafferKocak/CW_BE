@@ -44,3 +44,10 @@ VALUES
 				(32, "türk Jazz"),
 				(33, "Anadolu Rock");
 */
+
+-- UPDATE 
+--UPDATE Tablename SET filedname=newdata  WHERE condition
+--UPDATE Genre SET Name="yeni tür" WHERE GenreId=28;
+
+--DELETE dikkat!!!
+--DELETE FROM Genre WHERE GenreId=28;
