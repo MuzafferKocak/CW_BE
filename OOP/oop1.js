@@ -100,7 +100,7 @@ console.log(firstItem,secondItem, others);
 
 //? Spread Operatör (Dagitici) (Esittirin sag tarafinda)
 const newArray = [...testArray, "value5", "value6"]
-/*----------------------------------------------*/
+/*----------------------------------------------*
 //? OBJECT DESTRUCTURING
 
 const Car = {
@@ -138,7 +138,7 @@ const newObj = {
     newKey: "new-value"
 }
 console.log(newObj);
-/*----------------------------------------------*/
+/*----------------------------------------------*
 
 //? Object to JSON (JSON Objenin string hali)
 //console.log(typeof Car, Car);
@@ -150,7 +150,34 @@ console.log(newObj);
 // console.log(typeof obj, obj);
 
 //? Object to Array
+//* Keys:
+const arrKeys = Object.keys(Car)
+console.log(arrKeys);
+//* Values:
+const arrValues = Object.values(Car)
+console.log(arrValues);
+//* Entries:
+const arrEntries = Object.entries(Car)
+console.log(arrEntries);
 
+/*----------------------------------------------*
+//? CONSTRUCTOR FUNCTIONS:
+
+const constructorFunction = function(){
+    this.property1 = "value1"
+    this.property2 = "value2"
+}
 
 /*----------------------------------------------*/
-/*----------------------------------------------*/
+
+//? NEW KEYWORD: 
+
+const carConstructor = function(brand, model, year){
+    this.brand = brand
+    this.model = model
+    this.year = year
+    this.isAutoGear = true
+    this.colors = ['White', 'Red']
+}
+const Ford = new carConstructor("Ford", "Mustang", 1967)
+console.log(typeof Ford, Ford);
