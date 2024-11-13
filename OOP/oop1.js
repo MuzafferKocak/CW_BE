@@ -178,6 +178,15 @@ const carConstructor = function(brand, model, year){
     this.year = year
     this.isAutoGear = true
     this.colors = ['White', 'Red']
+
+    this.startEngine = function(methodParam) {
+        return ('Engine started.')
+    }
 }
 const Ford = new carConstructor("Ford", "Mustang", 1967)
 console.log(typeof Ford, Ford);
+console.log(Ford.brand);
+console.log(Ford.startEngine);
+
+const Mercedes = new carConstructor("Mercedes", "CLK200", 2001)
+console.log(Mercedes);
