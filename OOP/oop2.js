@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 /* -------------------------------------------------------
     OOP & CLASSES
@@ -61,43 +61,211 @@ console.log(Ford.runEngine());
 console.log(Ford.isRunning);
 
 
-/*----------------------------------------------- */
-//? INHERITANCE
-//? Super: parent(üst)class - This: 
+/*----------------------------------------------- *
+//? INHERITANCE Miras Alma. Başka bir class'ın tüm özeelik/metodlarını devralma. (parent-child ilişkisi kurulur.)
+//? Super: parent(üst)class - This: Child (Alt) Class
 
 class Vehicle {
-    vehicleIsActive = false
+  vehicleIsActive = false;
 
-    constructor (vehicleType){
-        this.vehicleType = vehicleType
-    }
+  constructor(vehicleType) {
+    this.vehicleType = vehicleType;
+  }
 }
 
-class Car extends Vehicle { //*Inheritance
+class Car extends Vehicle {
+  //*Inheritance
+
+  isRunning = false;
+
+  constructor(brand, model, year, vehicleType = "Car") {
+    super(vehicleType);
+    //* super() parametresi parent-class i ifade eder her zaman üstte olmali
+    this.brand = brand;
+    this.model = model;
+    this.year = year;
+  }
+
+  runEngine(param1) {
+    this.isRunning = true;
+    return "Motor Calisti";
+  }
+}
+// const Ford = new Car ("Ford", "Mustang", 1967)
+// console.log(Ford);
+// const Ford = new Car ("Ford", "Mustang", 1967, "Car")
+// console.log(Ford);
+
+class Accessory extends Car {
+  constructor(accessoryName, brand, model, year) {
+    super(brand, model, year);
+    this.accessoryName = accessoryName;
+  }
+}
+const FordClimate = new Accessory("Bosch Climate", "Ford", "Mustang", 1967);
+console.log(FordClimate);
+/*----------------------------------------------- *
+//? POLYMORPHISM: Miras aldığımız class'ın özellik ve metodlarını yeniden yazılabilmesi.
+//? - Override: Üst metodla aynı isim ve yapıda yeni bir method yazma. (ezme / iptal etme / önceliği alma)
+//? - Overload: Üst metodla aynı isimde ama farklı yapıda yeni bir method yazma. (her ikisi de aynı anda aktif.) (JS Overload desteklemez.)
+
+class Vehicle {
+    vehicleIsActive = false;
+  
+    constructor(vehicleType) {
+      this.vehicleType = vehicleType;
+    }
+    getDetails(){
+        console.log("Vehicle icindeki getDetails calisti");
+        return this. vehicleType
+    }
+  }
+  
+  class Car extends Vehicle {
+   
+  
+    isRunning = false;
+  
+    constructor(brand, model, year, vehicleType = "Car") {
+      super(vehicleType);
+      
+      this.brand = brand;
+      this.model = model;
+      this.year = year;
+    }
+  
+    runEngine(param1) {
+      this.isRunning = true;
+      return "Motor Calisti";
+    }
+    //* Override:
+    getDetails(){
+        console.log("Car icindeki getDetails calisti");
+        super.getDetails()
+        return this.brand
+    }
+      //? Overload: Üstteki methodun aynı isim ama farklı parametre adet/tip ile yeniden tanımlanması.
+    //? JS Desteklemez. TypeSctrip destekler.
+    //? Çalışma prensibi: Çağrıldığı zaman parametreye göre ilgili method çalışır.
+    // getDetails(parametre1, parameter2) {
+    //     return this
+    // }
+  }
+  const Ford = new Car("Ford", "Mustang", 1967, "Car")
+  console.log(Ford);
+  console.log(Ford.getDetails());
+
+
+/*----------------------------------------------- *
+//? Access Modifiers: 
+//? -PUBLIC: Genel erisime acik
+//? -PROTECTED (_): 
+//? -PRIVATE (#)
+
+class Vehicle {
+
+    vehicleIsActive = false //* Public property
+
+    //! JS "protected" i desteklemiyor 
+    _protectedProperty = "protected-value" //* Protected property
+    _protectedMethod() {return this}  //* Protected Method
+    
+    #privateProperty = "private-value" //*Private property
+    #privateMethod() {return this}  //*Private Method
+
+    constructor(vehicleType) {
+        this.vehicleType = vehicleType
+    }
+
+    getDetails() {
+        console.log('Vehicle içindeki getDetails çalişti.')
+        return this.vehicleType
+    }
+
+}
+
+class Car extends Vehicle {
 
     isRunning = false
 
-    
-    constructor(brand, model, year, vehicleType){
+    constructor(brand, model, year, vehicleType = 'Car') {
         super(vehicleType)
-        //* super() parametresi parent-class i ifade eder her zaman üstte olmali
         this.brand = brand
         this.model = model
         this.year = year
     }
 
-    runEngine(param1){
+    runEngine(param1) {
         this.isRunning = true
-        return "Motor Calisti"
+        return 'Motor Çalıştı'
     }
+    
+    getDetails() {
+
+        console.log("Public");
+
+
+        console.log('Car içindeki getDetails çalişti.')
+        return super.getDetails()
+    }
+
 }
-// const Ford = new Car ("Ford", "Mustang", 1967)
-// console.log(Ford);
-const Ford = new Car ("Ford", "Mustang", 1967, "Car")
-console.log(Ford);
+
+const Ford = new Car('Ford', 'Mustang', 1967, 'Car')
+console.log(Ford)
+console.log(Ford.getDetails())
 
 /*----------------------------------------------- */
-/*----------------------------------------------- */
-/*----------------------------------------------- */
+//? GETTER & SETTER METHODS: Görevi veri getirme (getter) ve veri güncelleme (setter) olan metodlardır.
+//? "STATIC" KEYWORD: Class'dan direkt erişim. (Instance erişemez.)
+
+class Car {
+  isRunning = false;
+  #price = 999;
+
+  constructor(brand, model, year, vehicleType = "Car") {
+    this.brand = brand;
+    this.model = model;
+    this.year = year;
+  }
+
+  runEngine(param1) {
+    this.isRunning = true;
+    return "Motor Çalişti";
+  }
+
+  getDetails() {
+    console.log("Car içindeki getDetails çalişti.");
+    return super.getDetails();
+  }
+  get getPrice() {
+    console.log("Fiyat görüntülendi");
+    return this.#price;
+  }
+  set setPrice(newPrice) {
+    console.log("Fiyat güncellendi");
+    this.#price = newPrice;
+    return this.#price;
+  }
+
+  //? Direkt classtan erismek icin "static" keyword kullanilabilir, "static" ile tanimlanmis degere instance dan erisemeyiz
+  static staticProp = "static-value";
+  static staticMethod() {
+    return "static-method";
+  }
+}
+const Ford = new Car("Ford", "Mustang", 1967, "Car");
+// console.log(Ford.price) //undefined
+// console.log(Ford.getPrice); // getter methodlari property gibi calisir
+// // console.log(Ford.setPrice(2000)); // setter methodlar artik bir normal method gibi calismaz
+// Ford.setPrice = 2000 // setter merhodlari property gibi güncellenir
+// console.log(Ford.getPrice);
+
+console.log(Car.staticProp); //*direkt classtan erisim
+console.log(Car.staticMethod());
+// console.log(Ford.staticProp); //* Instance erisemez
+// console.log(Ford.staticMethod);
+
+console.log(Object.values(Ford)); //* static örnek
 /*----------------------------------------------- */
 /*----------------------------------------------- */
