@@ -121,7 +121,7 @@ class Vehicle {
     }
   }
   
-  class Car extends Vehicle {
+  class Car extends Vehicle { //* Inheritance
    
   
     isRunning = false;
@@ -138,7 +138,8 @@ class Vehicle {
       this.isRunning = true;
       return "Motor Calisti";
     }
-    //* Override:
+    //* Override: Parent class'daki metodun aynen yeniden yazılabilmesi.
+    //* Üstteki getDetails yerine bu çalışacak:
     getDetails(){
         console.log("Car icindeki getDetails calisti");
         super.getDetails()
@@ -158,9 +159,9 @@ class Vehicle {
 
 /*----------------------------------------------- *
 //? Access Modifiers: 
-//? -PUBLIC: Genel erisime acik
-//? -PROTECTED (_): 
-//? -PRIVATE (#)
+//? -PUBLIC: Genel erişime açık. (Parent: Yes, Child: Yes, Instance: Yes)
+//? -PROTECTED (_): Sadece tanımlı olduğu class ve inherit edilen class içinden erişilebilir. (Parent: Yes, Child: Yes, Instance: No)
+//? -PRIVATE (#): Sadece tanımlı olduğu class içinden erişebilir. (Parent: Yes, Child: No, Instance: No)
 
 class Vehicle {
 
@@ -202,7 +203,11 @@ class Car extends Vehicle {
     
     getDetails() {
 
-        console.log("Public");
+        console.log('Public', this.vehicleType) // Public: Class Erişebilir.
+        console.log('Protected', this.protectedProperty) // Protected: Class Erişebilir.
+        console.log('Protected', this._protectedProperty) // Protected: Class Erişebilir.
+        console.log('Private', this.privateProperty) // Private: Class Erişemez.
+        // console.log('Private', this.#privateProperty) // Private: Class Erişemez.
 
 
         console.log('Car içindeki getDetails çalişti.')
@@ -234,7 +239,7 @@ class Car {
     return "Motor Çalişti";
   }
 
-  getDetails() {
+  getDetails() { //*getter method
     console.log("Car içindeki getDetails çalişti.");
     return super.getDetails();
   }
@@ -268,4 +273,6 @@ console.log(Car.staticMethod());
 
 console.log(Object.values(Ford)); //* static örnek
 /*----------------------------------------------- */
+//? ABSTRACTION: Soyutlama/Modelleme (Class ile obje üretebilme. Aynı amaç için kullanılan değişken ve methodların bir class içinde yazıyor olması)
+//? ENCAPCULLATION:  Kapsülleme/Ayrıştırma (Kodların gizliliği, private değişkenlere erişilemiyor olması ve birbirinden bağımsız çalışmaları.)
 /*----------------------------------------------- */
