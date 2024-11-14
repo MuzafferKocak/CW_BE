@@ -2,7 +2,7 @@
   "name": "oop",
   "version": "1.0.0",
   "description": "",
-  "main": "oop1.js",
+  "main": "oop2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
