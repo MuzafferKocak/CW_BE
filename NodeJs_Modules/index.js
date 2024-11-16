@@ -28,13 +28,8 @@
 // const {func1, func2, func3}= require("./modules")
 // func1()
 
-
 const { func1, func2, func3 } = require("./modules");
-
-
-
-
-
+func1()
 //*Built-in packages
 // require("node:http")
 // require("http")

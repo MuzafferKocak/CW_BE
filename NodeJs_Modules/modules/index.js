@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 /*----------------------------------*
 console.log("./modules indexten gelen");
@@ -56,22 +56,21 @@ module.exports.func2 = func2
 module.exports.func3 = func3
 /*----------------------------------*/
 
-
-module.exports = {
-    func1: function () {
-        console.log("func1 calisti");
-    }
-}
-module.exports = {
+(module.exports = {
+  func1: function () {
+    console.log("func1 calisti");
+  },
+}),
+  (module.exports = {
     func2: function () {
-        console.log("func3 calisti");
-    }
-}
-module.exports = {
+      console.log("func3 calisti");
+    },
+  }),
+  (module.exports = {
     func3: function () {
-        console.log("func3 calisti");
-    }
-}
+      console.log("func3 calisti");
+    },
+  });
 /*----------------------------------*
 
 /*----------------------------------*/
