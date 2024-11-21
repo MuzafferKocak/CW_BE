@@ -87,11 +87,12 @@ app.get("/", (req, res) => {
   });
 });
 
-/* ------------------------------------------------------- */
+/* ------------------------------------------------------- *
 const middleFunc1 = (req, res, next)=>{
     console.log("MiddleFunc1 run");
     req.message1 = "middleFunc1 run"
-    next()
+    // next()
+    next("route") //* Bir sonraki pathe atla
 }
 
 const middleFunc2 = (req, res, next)=>{
@@ -110,7 +111,7 @@ const middleFunc2 = (req, res, next)=>{
 // app.use([middleFunc1,middleFunc2]) //* all method
 // app.get("/home", [middleFunc1,middleFunc2]) //* get method (url must)
 
-app.get("/home", (req, res) => {
+app.get("/home",[middleFunc1, middleFunc2], (req, res) => {
     res.send({
       message1: req.message1,
       message2: req.message2,
@@ -118,7 +119,33 @@ app.get("/home", (req, res) => {
     });
   });
 
+app.get("/home", (req, res) => {
+    res.send({
+      message1: req.message1,
+      message2: req.message2,
+      message: "next.Route Finished",
+    });
+  });
+
+
 /* ------------------------------------------------------- */
 /* ------------------------------------------------------- */
-/* ------------------------------------------------------- */
-app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
+// const middleFuncs = require("./middlewares/")
+// app.use(middleFuncs)
+
+// const [middleFunc1, middleFunc2]=require("./middlewares/") //* Array
+// app.use(middleFunc1, middleFunc2)
+const {middleFunc1, middleFunc2}=require("./middlewares/") //* Object
+// app.use(middleFunc1, middleFunc2)
+
+app.get("/",middleFunc1, middleFunc2, (req, res) => {
+    res.send({
+      message1: req.message1,
+      message2: req.message2,
+      message: "next.Route Finished",
+    });
+  });
+  /* ------------------------------------------------------- */
+
+  /* ------------------------------------------------------- */
+  app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
