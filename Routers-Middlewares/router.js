@@ -44,7 +44,7 @@ app.use(router)
 
 // const router = require('./routes/index.js')
 // const router = require('./routes/index')
-// const router = require('./routes/') // default dosya ismi her zaman index.js'dir
+// const router = require('./routes/') //* default dosya ismi her zaman index.js'dir
 // app.use(router)
 
 app.use(require('./routes/'))
