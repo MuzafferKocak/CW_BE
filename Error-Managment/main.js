@@ -5,7 +5,7 @@
 ------------------------------------------------------- */
 require("express-async-errors");
 const express = require("express");
-const { statusCodes } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const app = express();
 
 require("dotenv").config();
@@ -77,7 +77,7 @@ app.get("/user/:id?", (req, res, next) => {
 /*-------------------------------------------*/
 class CustomError extends Error {
   name = "Custom Error";
-  statusCode = statusCodes.INTERNAL_SERVER_ERROR;
+  statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
   constructor(message, status) {
     super(message);
     this.statusCode = status;
@@ -85,7 +85,7 @@ class CustomError extends Error {
 }
 class BadRequestError extends Error {
   name = "BadRequest Error";
-  statusCode = statusCodes.BAD_REQUEST;
+  statusCode = StatusCodes.BAD_REQUEST;
   constructor(message) {
     super(message);
   }
