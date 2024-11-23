@@ -47,6 +47,6 @@ app.use(router)
 // const router = require('./routes/') //* default dosya ismi her zaman index.js'dir
 // app.use(router)
 
-app.use(require('./routes/'))
 /* ------------------------------------------------------- */
+app.use(require('./routes/'))
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
