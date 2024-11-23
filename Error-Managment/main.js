@@ -3,9 +3,9 @@
 /* -------------------------------------------------------
     EXPRESSJS - ERROR MANAGEMENT
 ------------------------------------------------------- */
-require("express-async-errors")
+require("express-async-errors");
 const express = require("express");
-const {statusCodes}=require("http-status-codes")
+const { statusCodes } = require("http-status-codes");
 const app = express();
 
 require("dotenv").config();
@@ -75,29 +75,28 @@ app.get("/user/:id?", (req, res, next) => {
   }
 });
 /*-------------------------------------------*/
-class CustomError extends Error{
-    name= "Custom Error"
-    statusCode = statusCodes.INTERNAL_SERVER_ERROR
-    constructor(message,status){
-        super(message)
-        this.statusCode= status
-    }
+class CustomError extends Error {
+  name = "Custom Error";
+  statusCode = statusCodes.INTERNAL_SERVER_ERROR;
+  constructor(message, status) {
+    super(message);
+    this.statusCode = status;
+  }
 }
-class BadRequestError extends Error{
-    name= "BadRequest Error"
-    statusCode = statusCodes.BAD_REQUEST
-    constructor(message){
-        super(message)
-        
-    }
+class BadRequestError extends Error {
+  name = "BadRequest Error";
+  statusCode = statusCodes.BAD_REQUEST;
+  constructor(message) {
+    super(message);
+  }
 }
 
 /*-------------------------------------------*/
 function asyncSample() {
-    return new Promise((resolve, reject) => {
-      reject(new CustomError("Asenkron işlem sirasinda bir hata oluştu", 400));
-    });
-  }
+  return new Promise((resolve, reject) => {
+    reject(new CustomError("Asenkron işlem sirasinda bir hata oluştu", 400));
+  });
+}
 /*-------------------------------------------*
 //? error handler async hatalari dogrudan yakalamaz
 app.get("/user/:id?", async function (req, res) {
@@ -117,10 +116,10 @@ app.get("/user/:id?", async function (req, res, next) {
 /*-------------------------------------------*/
 //? express-async-error sayesinde error handler artık async hataları yakalayabilir
 app.get("/user/:id?", async function (req, res) {
-    await asyncSample();
-  
-    res.send({ userId: 1, userName: "John" });
-  });
+  await asyncSample();
+
+  res.send({ userId: 1, userName: "John" });
+});
 /*-------------------------------------------*/
 //! 21 console sınıfının methodları
 console.log();
@@ -146,7 +145,6 @@ console.timeEnd("Zamanlayici"); //! 21 console sınıfının methodları
 
 /*-------------------------------------------*/
 
-
 app.use("*", (req, res) => {
   res.status(404).send("The route is not found");
 });
@@ -157,8 +155,16 @@ const errorHandlerFunction = (err, req, res, next) => {
   // console.log(err.statusCode);
 
   const statusCode1 = err instanceof TypeError && 400;
-  const statusCode = err.statusCode || res.statusCode ||statusCode1||res.statusCode|| 500;
-  req.status(statusCode).send({ isError: true, message: err.message, stack:err.stack, couse:err.couse });
+  const statusCode =
+    err.statusCode || res.statusCode || statusCode1 || res.statusCode || 500;
+  req
+    .status(statusCode)
+    .send({
+      isError: true,
+      message: err.message,
+      stack: err.stack,
+      couse: err.couse,
+    });
 };
 
 app.use(errorHandlerFunction);
