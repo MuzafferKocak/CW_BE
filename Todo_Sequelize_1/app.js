@@ -27,8 +27,13 @@ app.all('/', (req, res) => {
 /* ------------------------------------------------------- */
 //? SEQUELIZE
 
-require("sequelize")
-// continue from here...
+const {Sequelize, DataTypes} = require("sequelize")
+
+//* Connection Settings:
+// const sequelize = new Sequelize("sqlite:./db.sqlite3")
+// const sequelize = new Sequelize("sqlite:" + process.env.SQLITE)
+const sequelize = new Sequelize("sqlite:" + process.env.SQLITE || "./db.sqlite3")
+
 /* ------------------------------------------------------- */
 const errorHandler = (err, req, res, next) => {
     const errorStatusCode = res.errorStatusCode ?? 500
