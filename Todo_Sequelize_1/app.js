@@ -62,6 +62,7 @@ const Todo = sequelize.define("todos", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  //   description: DataTypes.TEXT,
   priority: {
     //* -1: low, 0: Normal, 1: Yüksek
     type: DataTypes.TINYINT,
@@ -73,7 +74,14 @@ const Todo = sequelize.define("todos", {
     allowNull: false,
     defaultValue: false,
   },
+//   createdAt:{},
+//   updatedAt:{},
+//* createdAt ve updatedAt tanimlamaya gerek yoktur sequelize otamatik yönetir
 });
+
+//? Syncronization:
+//? Modeli veritabanina uygula:
+sequelize.sync()
 
 /* ------------------------------------------------------- */
 const errorHandler = (err, req, res, next) => {
@@ -86,6 +94,10 @@ const errorHandler = (err, req, res, next) => {
     //* stack: err.stack, //* error details
   });
 };
+
+
+
+
 app.use(errorHandler);
 /* ------------------------------------------------------- */
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
