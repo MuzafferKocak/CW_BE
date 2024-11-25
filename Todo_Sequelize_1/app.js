@@ -97,6 +97,22 @@ sequelize
 
 const router = express.Router();
 
+
+
+//*List Todos
+router.get("/", async (req, res)=>{
+    // const data = await Todo.findAll()
+    // const data = await Todo.findAll({
+    //     attributes: ["title", "description"], //* select fields
+    //     where: {priority: -1} //* filters
+    // })
+
+    res.status(200).send({
+        error: false,
+        result: data,
+    })
+})
+
 //* CRUD =>
     //* Create Todo:
 router.post("/", async (req, res) => {
