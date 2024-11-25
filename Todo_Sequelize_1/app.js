@@ -21,9 +21,9 @@ app.use(express.json());
 //* express-async-errors: catch async-errors and send to errorHandler
 require("express-async-errors");
 
-app.all("/", (req, res) => {
-  res.send("WELCOME TO TODO API");
-});
+// app.all("/", (req, res) => {
+//   res.send("WELCOME TO TODO API");
+// });
 /* ------------------------------------------------------- */
 //? SEQUELIZE
 
@@ -74,9 +74,9 @@ const Todo = sequelize.define("todos", {
     allowNull: false,
     defaultValue: false,
   },
-//   createdAt:{},
-//   updatedAt:{},
-//* createdAt ve updatedAt tanimlamaya gerek yoktur sequelize otamatik yönetir
+  //   createdAt:{},
+  //   updatedAt:{},
+  //* createdAt ve updatedAt tanimlamaya gerek yoktur sequelize otamatik yönetir
 });
 
 //? Syncronization:
@@ -87,10 +87,40 @@ const Todo = sequelize.define("todos", {
 //! sync() methodu 1 kere uygulanır ((modelde değişiklik var ise tekrar uygulanır.)
 
 //? Connect to DB:
-sequelize.authenticate()
-.then(()=> console.log("* DB not Connected *"))
-.catch(()=> console.log("* DB not Connected *"))
+sequelize
+  .authenticate()
+  .then(() => console.log("* DB Connected *"))
+  .catch(() => console.log("* DB not Connected *"));
 
+/* ------------------------------------------------------- */
+//? Routers:
+
+const router = express.Router();
+
+//* CRUD =>
+    //* Create Todo:
+router.post("/", async (req, res) => {
+    // const receivedData = req.body
+    // console.log(receivedData);
+
+    // const data =  await Todo.create({
+    //     title: receivedData.title,
+    //     description: receivedData.description,
+    //     priority: receivedData.priority,
+    //     isDone: receivedData.isDone,
+    // })
+
+    const data =  await Todo.create(req.body)
+
+    
+
+    res.status(201).send({
+        error: false,
+        result: data,
+    })
+
+});
+app.use(router)
 /* ------------------------------------------------------- */
 const errorHandler = (err, req, res, next) => {
   const errorStatusCode = res.errorStatusCode ?? 500;
@@ -102,9 +132,6 @@ const errorHandler = (err, req, res, next) => {
     //* stack: err.stack, //* error details
   });
 };
-
-
-
 
 app.use(errorHandler);
 /* ------------------------------------------------------- */
