@@ -81,7 +81,15 @@ const Todo = sequelize.define("todos", {
 
 //? Syncronization:
 //? Modeli veritabanina uygula:
-sequelize.sync()
+// sequelize.sync() //* Create Table (ilk uygulama)
+// sequelize.sync({force: true}) //* Drop table & Create Table (Dikkat!!! Data var ise silinir)
+// sequelize.sync({alter: true}) //* To Backup & droptable & create table & from backup
+//! sync() methodu 1 kere uygulanır ((modelde değişiklik var ise tekrar uygulanır.)
+
+//? Connect to DB:
+sequelize.authenticate()
+.then(()=> console.log("* DB not Connected *"))
+.catch(()=> console.log("* DB not Connected *"))
 
 /* ------------------------------------------------------- */
 const errorHandler = (err, req, res, next) => {
