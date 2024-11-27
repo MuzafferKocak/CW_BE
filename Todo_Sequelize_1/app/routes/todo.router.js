@@ -4,24 +4,35 @@
 ------------------------------------------------------- */
 //* ROUTERS:
 
-// const router = express.Router()
+//* const router = express.Router()
 const router = require("express").Router();
 
-// Call todo.controller:
+//* Call todo.controller:
 const todo = require("../controllers/todo.controller");
 
-// LIST TODOS:
-router.get("/", todo.list);
-//? CRUD ->
-// CREATE TODO:
-router.post("/", todo.create);
-// READ TODO:
-router.get("/:id(\\d+)", todo.read);
-// UPDATE TODO:
-router.put("/:id", todo.update);
-// DELETE TODO:
-router.delete("/:id", todo.delete);
+//* LIST TODOS:
+// router.get("/", todo.list);
+// //? CRUD ->
+// //* CREATE TODO:
+// router.post("/", todo.create);
+// //* READ TODO:
+// router.get("/:id(\\d+)", todo.read);
+// //* UPDATE TODO:
+// router.put("/:id", todo.update);
+// //* DELETE TODO:
+// router.delete("/:id", todo.delete);
 
-// Export:
+
+router.route("/")
+.get(todo.list)
+.post(todo.create)
+
+router.route("/:id")
+.get(todo.read)
+.put(todo.update)
+.patch(todo.update)  //* Tam data güncellemesi
+.delete(todo.delete) //* Kısmi data güncellemesi
+
+//* Export:
 module.exports = router;
 /* ------------------------------------------------------- */
