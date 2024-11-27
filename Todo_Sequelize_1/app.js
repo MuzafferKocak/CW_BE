@@ -17,6 +17,8 @@ const PORT = process.env.PORT || 8000;
 /* ------------------------------------------------------- */
 //* Accept json data and convert to object
 app.use(express.json());
+//* Accept FORM data and convert to object
+app.use(express.urlencoded({ extended: true }));
 
 //* express-async-errors: catch async-errors and send to errorHandler
 require("express-async-errors");
@@ -28,6 +30,7 @@ require("express-async-errors");
 //? SEQUELIZE
 
 const { Sequelize, DataTypes } = require("sequelize");
+const { UPSERT } = require("sequelize/lib/query-types");
 
 //* DB Connection Settings:
 // const sequelize = new Sequelize("sqlite:./db.sqlite3")
@@ -97,46 +100,104 @@ sequelize
 
 const router = express.Router();
 
-
+//? https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
 
 //*List Todos
-router.get("/", async (req, res)=>{
-    // const data = await Todo.findAll()
-    // const data = await Todo.findAll({
-    //     attributes: ["title", "description"], //* select fields
-    //     where: {priority: -1} //* filters
-    // })
+router.get("/", async (req, res) => {
+  // const data = await Todo.findAll()
+  // const data = await Todo.findAll({
+  //     attributes: ["title", "description"], //* select fields
+  //     where: {priority: -1} //* filters
+  // })
+  const data = await Todo.findAndCountAll();
 
-    res.status(200).send({
-        error: false,
-        result: data,
-    })
-})
+  res.status(200).send({
+    error: false,
+    result: data,
+  });
+});
 
 //* CRUD =>
-    //* Create Todo:
+//* Create Todo:
 router.post("/", async (req, res) => {
-    // const receivedData = req.body
-    // console.log(receivedData);
+  // const receivedData = req.body
+  // console.log(receivedData);
 
-    // const data =  await Todo.create({
-    //     title: receivedData.title,
-    //     description: receivedData.description,
-    //     priority: receivedData.priority,
-    //     isDone: receivedData.isDone,
-    // })
+  // const data =  await Todo.create({
+  //     title: receivedData.title,
+  //     description: receivedData.description,
+  //     priority: receivedData.priority,
+  //     isDone: receivedData.isDone,
+  // })
 
-    const data =  await Todo.create(req.body)
+  const data = await Todo.create(req.body);
 
-    
-
-    res.status(201).send({
-        error: false,
-        result: data,
-    })
-
+  res.status(201).send({
+    error: false,
+    result: data,
+  });
 });
-app.use(router)
+
+//* READ TODO:
+
+router.get("/:id(\\d+)", async (req, res) => {
+  // console.log(req.paramas);
+  // console.log(req.paramas.id);
+
+  // const data = await Todo.findOne({where: { id: req.params.id}})
+  const data = await Todo.findByPk(req.params.id);
+
+  res.status(200).send({
+    error: false,
+    result: data,
+  });
+});
+
+//* UPDATE TODO:
+
+router.put("/:id", async (req, res) => {
+  // const data = await Todo.update({...newData},{...where})
+  const data = await Todo.update(req.body, { where: { id: req.params.id } });
+  // UPSERT: kayit varsa güncelle, yoksa ekle
+
+  // res.status(202).send({
+  //   error: false,
+  //   result: data,
+  //   message: "updated",
+  //   new: await Todo.findByPk(req.params.id)
+  // })
+
+  res.status(202).send({
+    error: false,
+    result: await Todo.findByPk(req.params.id),
+    message: "updated",
+    count: data,
+  });
+});
+
+//* DELETE TODO:
+router.delete("/:id", async (req, res) => {
+  // const data = await Todo.destroy({...where:});
+  const data = await Todo.destroy(req.body, { where: { id: req.params.id } });
+
+  //* 204: No Content => icerik vermeyebilir
+  // res.status(204).send({
+  //   error: false,
+  //   message: "Deleted",
+  //   count: data
+  // })
+
+  if (data > 0) {
+    res.status(204);
+  } else {
+    res.status(404).send({
+      error: true,
+      message: " Can not Deleted. (Maybe Already deleted)",
+    });
+  }
+});
+
+app.use(router);
 /* ------------------------------------------------------- */
 const errorHandler = (err, req, res, next) => {
   const errorStatusCode = res.errorStatusCode ?? 500;
