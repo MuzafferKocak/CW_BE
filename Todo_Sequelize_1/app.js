@@ -187,13 +187,16 @@ router.delete("/:id", async (req, res) => {
   //   count: data
   // })
 
-  if (data > 0) {
-    res.status(204);
-  } else {
-    res.status(404).send({
-      error: true,
-      message: " Can not Deleted. (Maybe Already deleted)",
-    });
+  if (data > 0) { //* kayit silindiyse
+    res.sendStatus(204);
+  } else { //* silinmediyse
+    // res.status(404).send({
+    //   error: true,
+    //   message: "Can not Deleted. (Maybe Already deleted)",
+    // });
+
+    res.errorStatusCode = 404
+    throw new Error("Can not Deleted. (Maybe Already deleted)")
   }
 });
 
