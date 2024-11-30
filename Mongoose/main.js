@@ -14,7 +14,11 @@ require("dotenv").config()
 const PORT = process.env.PORT || 8000
 /* ------------------------------------------------------- */
 //* Accept JSON
-app.use(express.)
+app.use(express.json())
+//* DB Connection with normal Function
+require("./src/config/dbConnection")()
+//* DB Connection with Class
+// require("./src/config/dbConnection");
 
 /* ------------------------------------------------------- */
 
@@ -32,7 +36,7 @@ app.use("*", (req, res)=>{
 })
 
 //* Catch errors
-app.use(require())
+app.use(require("./src/midlewares/errorHandler"))
 
 
 /* ------------------------------------------------------- */
