@@ -13,7 +13,8 @@ const app = express() //* Singleton
 require("dotenv").config()
 const PORT = process.env.PORT || 8000
 /* ------------------------------------------------------- */
-
+//* Accept JSON
+app.use(express.)
 
 /* ------------------------------------------------------- */
 
