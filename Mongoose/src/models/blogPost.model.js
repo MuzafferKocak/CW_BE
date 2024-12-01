@@ -28,10 +28,12 @@ const BlogPostSchema = new mongoose.Schema(
         type: String,
         trim: true,
         required: true,
-      }
+      },
+      //* createdAt // timestamps: true
+      //* updatedAt // timestamps: true
     },
     {
-      collation: "blogPosts",
+      collection: "blogPosts",
       timestamps: true,
     }
   );

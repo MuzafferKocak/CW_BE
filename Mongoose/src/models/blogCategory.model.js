@@ -45,7 +45,7 @@ const BlogCategorySchema = new mongoose.Schema(
     },
   },
   {
-    collation: "blogCategories",
+    collection: "blogCategories",
     timestamps: true,
   }
 );
