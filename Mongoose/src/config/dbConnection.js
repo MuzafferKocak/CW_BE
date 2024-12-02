@@ -5,7 +5,10 @@
 -------------------------------------------------*/
 
 const mongoose = require("mongoose");
-const { customError, CustomError } = require("../errors/customError");
+const { CustomError } = require("../errors/customError");
+
+
+//'mongodb://localhost:27017/blogAPI'
 
 /* ------------------------------------------------------- */
 const dbConnection = () => {
@@ -21,7 +24,7 @@ const dbConnection = () => {
   }
 };
 /* ------------------------------------------------------- *
-//* Class
+//* Class (# private, _ ile başlayan dışarıdan erişilmemeli)
 class DatabaseConnection {
   constructor() {
     this.#_connect();
