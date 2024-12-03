@@ -11,16 +11,17 @@ const { CustomError } = require("../errors/customError");
 //'mongodb://localhost:27017/blogAPI'
 
 /* ------------------------------------------------------- */
-const dbConnection = () => {
+const dbConnection = async () => {
   if (!process.env.MONGODB_URI) {
     throw new CustomError("mongodb_uri is necessary");
   }
 
   try {
-    mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("Database connection is successfull");
   } catch (error) {
     console.log("Database cennection error");
+    throw new CustomError("Failed to connect to the database", 500)
   }
 };
 /* ------------------------------------------------------- *
