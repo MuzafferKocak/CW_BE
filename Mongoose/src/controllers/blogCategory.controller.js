@@ -1,6 +1,5 @@
 "use strict";
 
-
 /*------------------------------------------------
 |     //? Express - Blog Project with Mongoose
 -------------------------------------------------*/
@@ -51,10 +50,10 @@ module.exports.blogCategory = {
     });
   },
   update: async (req, res) => {
-    //updateOne({filter},{update},{options})
+    //* updateOne({filter},{update},{options})
     //! findByIdAndUpdate=> findOne+updateOne
     // const updatedUser = await User.findByIdAndUpdate(
-    //   "64f8b0c9e9f8d7369c3c4f31", // _id
+    //   "64f8b0c9e9f8d7369c3c4f31", //* _id
     //   { name: "John" },
     //   { new: true } //* Güncellenmiş belgeyi döndür
     // );
@@ -97,4 +96,3 @@ module.exports.blogCategory = {
 };
 
 /* ------------------------------------------------------- */
-

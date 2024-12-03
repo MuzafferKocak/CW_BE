@@ -49,9 +49,9 @@ module.exports.blogPost = {
     );
 
     //* güncellenmek istenen veri yoksa
-    if(result.matchedCount === 0){
-      throw new NotFoundError("No matching documents found")
-      return res.status(404).send("No matching documents found")
+    if (result.matchedCount === 0) {
+      throw new NotFoundError("No matching documents found");
+      return res.status(404).send("No matching documents found");
     }
     //* güncellenmek istenen veri ama güncelleme yapılmadı
     if (result.matchedCount > 0 && result.modifiedCount === 0) {
@@ -60,13 +60,13 @@ module.exports.blogPost = {
     res.status(202).send({
       isError: false,
       result,
-      new: await BlogPost.findOne({_id:req.params.postId})
-    })
+      new: await BlogPost.findOne({ _id: req.params.postId }),
+    });
   },
   //*
 
   delete: async (req, res) => {
-    const result = await BlogPost.deleteOne({_id: req.params.postId})
+    const result = await BlogPost.deleteOne({ _id: req.params.postId });
     console.log(result);
     //deletedCount
     if (result.deletedCount === 0) {
@@ -75,7 +75,7 @@ module.exports.blogPost = {
     }
     res.status(204).send({
       result,
-    })
+    });
   },
 };
 

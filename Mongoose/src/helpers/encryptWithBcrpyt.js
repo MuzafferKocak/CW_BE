@@ -4,7 +4,6 @@
 |     //? Express - Blog Project with Mongoose
 -------------------------------------------------*/
 
-
 /* 
 const bcrypt = require("bcrypt");
 const paswwordEncyption = async function (password) {

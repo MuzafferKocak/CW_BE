@@ -7,7 +7,6 @@
 const mongoose = require("mongoose");
 const { CustomError } = require("../errors/customError");
 
-
 //'mongodb://localhost:27017/blogAPI'
 
 /* ------------------------------------------------------- */
@@ -21,7 +20,7 @@ const dbConnection = async () => {
     console.log("Database connection is successfull");
   } catch (error) {
     console.log("Database cennection error");
-    throw new CustomError("Failed to connect to the database", 500)
+    throw new CustomError("Failed to connect to the database", 500);
   }
 };
 /* ------------------------------------------------------- *

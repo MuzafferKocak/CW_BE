@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const { StatusCodes } = require("http-status-codes");
 class CustomError extends Error {
