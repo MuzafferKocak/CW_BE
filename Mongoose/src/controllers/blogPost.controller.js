@@ -14,6 +14,7 @@ const { NotFoundError } = require("../errors/customError");
 module.exports.blogPost = {
   list: async (req, res) => {
     const data = await BlogPost.find().populate("categoryId");
+    console.log(data);
 
     res.send({
       result: data,
@@ -41,9 +42,41 @@ module.exports.blogPost = {
     });
   },
 
-  update: async (req, res) => {},
+  update: async (req, res) => {
+    const result = await BlogPost.updateOne(
+      { _id: req.params.postId },
+      req.body
+    );
 
-  delete: async (req, res) => {},
+    //* güncellenmek istenen veri yoksa
+    if(result.matchedCount === 0){
+      throw new NotFoundError("No matching documents found")
+      return res.status(404).send("No matching documents found")
+    }
+    //* güncellenmek istenen veri ama güncelleme yapılmadı
+    if (result.matchedCount > 0 && result.modifiedCount === 0) {
+      return res.status(200).send({ message: "Document already up-to-date." });
+    }
+    res.status(202).send({
+      isError: false,
+      result,
+      new: await BlogPost.findOne({_id:req.params.postId})
+    })
+  },
+  //*
+
+  delete: async (req, res) => {
+    const result = await BlogPost.deleteOne({_id: req.params.postId})
+    console.log(result);
+    //deletedCount
+    if (result.deletedCount === 0) {
+      throw new NotFoundError("No matching documents found");
+      // return res.status(404).send("No matching documents found");
+    }
+    res.status(204).send({
+      result,
+    })
+  },
 };
 
 /* ------------------------------------------------------- */

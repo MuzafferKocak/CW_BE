@@ -3,19 +3,19 @@
 |     //? Express - Blog Project with Mongoose
 -------------------------------------------------*/
 const router = require("express").Router();
-const { blogCategory } = require("../controllers/blogCategory.controller");
 
 //* Call Controlers:
+const { blogCategory } = require("../controllers/blogCategory.controller");
 
 //* /blog/category
-router.route("/category").get(blogCategory.list).post(blogCategory.create);
+router.route("/").get(blogCategory.list).post(blogCategory.create);
 
 //* /blog/category/id
 router
-  .route("/category/:categoryId")
+  .route("/:categoryId")
   .get(blogCategory.read)
   .put(blogCategory.update)
   .patch(blogCategory.update)
   .delete(blogCategory.delete);
 
-  module.exports=router
+module.exports = router;

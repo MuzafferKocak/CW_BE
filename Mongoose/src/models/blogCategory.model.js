@@ -44,6 +44,8 @@ const BlogCategorySchema = new mongoose.Schema(
       required: true,
     },
   },
+  //* createdAt // timestamps: true
+  //* updatedAt // timestamps: true
   {
     collection: "blogCategories",
     timestamps: true,

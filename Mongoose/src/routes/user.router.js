@@ -1,30 +1,25 @@
 "use strict";
-
 /*------------------------------------------------
 |     //? Express - Blog Project with Mongoose
 -------------------------------------------------*/
 
-const mongoose = require("mongoose")
+const router = require("express").Router();
 
-//* User Schema
+//* Call Controllers:
+const { user } = require("../controllers/user.controller");
+/* ------------------------------------------------------- */
 
-const UserSchema = new mongoose.Schema({
-    email:{
-        type: String,
-        trim: true,
-        unique: true,
-        required: [true, "Email is required"], //* required: true
-    },
-    password:{
-        type:String,
-        trim: true,
-        required: [true, "Password is requiered"], //* required: true
-        set:(password)=>passwordEncypt(password)
-        //set: passwordEncypt
-    },
-    firstname: String,
-    lastname: String,
-},{
-    collation: "users",
-    timestamps:true,
-})
+//* URL: /blog ->
+//* /blog/post
+//* /user
+router.route("/").get(user.list).post(user.create);
+
+router
+  .route("/:userId")
+  .get(user.read)
+  .put(user.update)
+  .patch(user.update)
+  .delete(user.delete);
+
+module.exports = router;
+/* ------------------------------------------------------- */
