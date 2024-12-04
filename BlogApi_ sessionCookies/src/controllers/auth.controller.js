@@ -55,13 +55,12 @@ module.exports = {
     }
   },
   logout: async (req, res) => {
-
     //* Session/Cookie verilerini silmek icin "null" esitlemek yeterli.
-    req.session = null
+    req.session = null;
 
     res.status(200).send({
-        error: false,
-        message: "Logout Ok",
-    })
+      error: false,
+      message: "Logout Ok",
+    });
   },
 };

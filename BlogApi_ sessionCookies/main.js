@@ -38,20 +38,51 @@ app.use(
   })
 );
 
+/* ------------------------------------------------------- *
+
+//* Check user-data from session
+const { User } = require("./src/models/user.model");
+
+app.use(async (req, res, next) => {
+  console.log("session", req.session);
+
+  //* login olan user datasini buraya kaydedecegiz
+  req.user = null
+
+  if (req.session?._id) {
+    const { _id, password } = req.session;
+    const user = await User.findone({ _id });
+
+    if (user && user.password == password) {
+      //* Login basarili
+      //* Session icindeki login datasi basarili ise user verisini req.user'a ata
+      req.user = user
+    } else {
+      //*Sessionda hatali veriler varsa 
+      req.session = null;
+    }
+  }
+
+  next();
+});
+//* Move the file
+
 /* ------------------------------------------------------- */
 //* Routes:
 
+app.use(require("./src/midlewares/userControl"));
 app.use("/blog/category", require("./src/routes/blogCategory.router")); //* blogCategory
 app.use("/blog/post", require("./src/routes/blogPost.router")); //* blogPost
 app.use("/user", require("./src/routes/user.router")); //* user
 app.use("/auth", require("./src/routes/auth.router")); //* Login + Logout
 app.all("/", (req, res) => {
   // res.send("WELCOME TO BLOG API");
-  console.log("session:",req.session);
+  // console.log("session:", req.session);
   res.send({
     message: "WELCOME TO BLOG API",
-    session: req.session
-  })
+    user: req.user, //* logined user data
+    session: req.session,
+  });
 });
 /* ------------------------------------------------------- */
 
