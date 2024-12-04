@@ -19,7 +19,7 @@ module.exports = {
         if (user.password == passwordEncrypt(password)) {
           res.status(200).send({
             error: false,
-            message: "login Ok",
+            message: "Login Ok",
             user,
           });
         } else {
