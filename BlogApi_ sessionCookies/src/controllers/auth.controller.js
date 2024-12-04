@@ -15,6 +15,25 @@ module.exports = {
       const user = await User.findOne({ email });
       //* user ok
       if (user) {
+        //* Session
+        // req.session = {
+        //     email: user.email,
+        //     password: user.password,
+        // }
+        //req.session.email = user.email
+        req.session._id = user._id;
+        req.session.password = user.password;
+        //* Session
+
+        //*Cookies
+        //* Beni hatirla (remindMe)
+        if (re.body?.remindMe) {
+          req.session.remindMe = true;
+          //* set maxAge to 3 days
+          req.sessionOptions.maxAge = 1000 * 60 * 60 * 24 * 3;
+        }
+        //*Cookies
+
         //* password ok
         if (user.password == passwordEncrypt(password)) {
           res.status(200).send({
@@ -35,5 +54,14 @@ module.exports = {
       throw new Error("Email and password are required.");
     }
   },
-  logout: async (req, res) => {},
+  logout: async (req, res) => {
+
+    //* Session/Cookie verilerini silmek icin "null" esitlemek yeterli.
+    req.session = null
+
+    res.status(200).send({
+        error: false,
+        message: "Logout Ok",
+    })
+  },
 };

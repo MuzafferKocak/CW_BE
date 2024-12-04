@@ -30,10 +30,11 @@ app.all("/", (req, res) => {
 //* npm i cookie-session
 
 const session = require("cookie-session");
+//* Run with general settings
 app.use(
   session({
     secret: process.env.SECRET_KEY, //*Cookie datasini sifreleme anahtari
-    maxAge: 1000 * 60 * 60 * 24 * 3, //*milliSeconds //3 days
+    // maxAge: 1000 * 60 * 60 * 24 * 3, //*milliSeconds //3 days
   })
 );
 
@@ -45,7 +46,12 @@ app.use("/blog/post", require("./src/routes/blogPost.router")); //* blogPost
 app.use("/user", require("./src/routes/user.router")); //* user
 app.use("/auth", require("./src/routes/auth.router")); //* Login + Logout
 app.all("/", (req, res) => {
-  res.send("WELCOME TO BLOG API");
+  // res.send("WELCOME TO BLOG API");
+  console.log("session:",req.session);
+  res.send({
+    message: "WELCOME TO BLOG API",
+    session: req.session
+  })
 });
 /* ------------------------------------------------------- */
 
