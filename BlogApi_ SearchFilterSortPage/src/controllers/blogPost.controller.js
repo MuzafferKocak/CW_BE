@@ -13,42 +13,58 @@ const { NotFoundError } = require("../errors/customError");
 
 module.exports.blogPost = {
   list: async (req, res) => {
-    //* FILTERING - SEARCHING - SORTING - PAGINATION *//
+    //* Moved the middleware
+    const data = res.getModelList(BlogPost, ["userId", "categoryId"])
 
-    //* FILTERING:
 
-    //- URL?filter[fieldName]=value1&filter[fieldName2]=value2
-    const filter = req.query?.filter || {};
-    // console.log(filter);
+    // //* FILTERING - SEARCHING - SORTING - PAGINATION *//
 
-    //* SEARCHING
-    //- URL?search[fieldName]=value1&search[fieldName2]=value2
-    const search = req.query?.search || {};
-    //? https://www.mongodb.com/docs/manual/reference/operator/query/regex/
-    //- { userId: { $regex: "6751e0e727ae5347fc01afd7", $options: "i" } }
-    for (let key in search) {
-      // search[key]= {$regex: search[key], $options: ""} //* Case-sensative
-      search[key] = { $regex: search[key], $options: "i" }; //* CAse- insensative
-    }
+    // //* FILTERING:
 
-    //* SORTING
-    //- URL?sort[fieldName]=asc&sort[fieldName2]=desc (asc: A-Z, desc: Z-A)
-    const sort = req.query?.sort || {};
+    // //- URL?filter[fieldName]=value1&filter[fieldName2]=value2
+    // const filter = req.query?.filter || {};
+    // // console.log(filter);
 
-    //*PAGINATION
-    //- URL?page=3&limit=20
-    //* LIMIT
-    let limit = Number(req.query?.limit);
-    limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE || 20)
-    console.log(limit);
+    // //* SEARCHING
+    // //- URL?search[fieldName]=value1&search[fieldName2]=value2
+    // const search = req.query?.search || {};
+    // //? https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+    // //- { userId: { $regex: "6751e0e727ae5347fc01afd7", $options: "i" } }
+    // for (let key in search) {
+    //   // search[key]= {$regex: search[key], $options: ""} //* Case-sensative
+    //   search[key] = { $regex: search[key], $options: "i" }; //* CAse- insensative
+    // }
 
-    const data = await BlogPost.find({ ...filter, ...search })
-      .sort(sort)
-      .limit(limit);
-    // const data = await BlogPost.find().populate("categoryId");
-    console.log(data);
+    // //* SORTING
+    // //- URL?sort[fieldName]=asc&sort[fieldName2]=desc (asc: A-Z, desc: Z-A)
+    // const sort = req.query?.sort || {};
+
+    // //*PAGINATION
+    // //- URL?page=3&limit=20
+    // //* LIMIT
+    // let limit = Number(req.query?.limit);
+    // limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE || 20);
+    // // console.log(limit);
+    // //* PAGE
+    // let page = Number(req.query?.page);
+    // page = page > 0 ? page : 1;
+    // // console.log(page);
+    // //* SKIP
+    // let skip = Number(req.query?.skip)
+    // skip = skip > 0 ? skip: ((page -1 )* limit)
+    // // console.log(page, skip, limit); 
+
+    // // const data = await BlogPost.find().populate("categoryId");
+    // //* LIMIT 10, 20 = LIMIT skip() limit()
+    // const data = await BlogPost.find({ ...filter, ...search })
+    //   .sort(sort)
+    //   .limit(limit)
+    //   .skip(skip)
+    //   .populate(["userId","categoryId"])
+    // console.log(data);
 
     res.send({
+      details: await res.getModelListDetails(BlogPost),
       result: data,
     });
   },

@@ -8,7 +8,7 @@
 const { User } = require("../models/user.model");
 
 module.exports = async (req, res, next) => {
-  console.log("session", req.session);
+  // console.log("session", req.session);
 
   //* login olan user datasini buraya kaydedecegiz
   req.user = null;

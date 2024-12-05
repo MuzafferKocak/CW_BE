@@ -68,9 +68,12 @@ app.use(async (req, res, next) => {
 //* Move the file
 
 /* ------------------------------------------------------- */
+//* MIDDLEWARE Filter Search Sort Pagination
+app.use(require("./src/midlewares/findSearchSortPage"))
+/* ------------------------------------------------------- */
 //* Routes:
 
-app.use(require("./src/midlewares/userControl"));
+app.use(require("./src/midlewares/userControl")); //* user data
 app.use("/blog/category", require("./src/routes/blogCategory.router")); //* blogCategory
 app.use("/blog/post", require("./src/routes/blogPost.router")); //* blogPost
 app.use("/user", require("./src/routes/user.router")); //* user
