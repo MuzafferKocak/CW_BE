@@ -18,7 +18,7 @@ const BlogPostSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    catogoryId: {
+    categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "BlogCategory",
       required: true,
@@ -33,6 +33,10 @@ const BlogPostSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    published: {
+      type: Boolean,
+      default: true
+    }
     //* createdAt // timestamps: true
     //* updatedAt // timestamps: true
   },
