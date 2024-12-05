@@ -13,7 +13,33 @@ const { NotFoundError } = require("../errors/customError");
 
 module.exports.blogPost = {
   list: async (req, res) => {
-    const data = await BlogPost.find().populate("categoryId");
+    //* FILTERING - SEARCHING - SORTING - PAGINATION *//
+
+    //* FILTERING:
+
+    //- URL?filter[fieldName]=value1&filter[fieldName2]=value2
+    const filter = req.query?.filter || {};
+    // console.log(filter);
+
+    //* SEARCHING
+    //- URL?search[fieldName]=value1&search[fieldName2]=value2
+    const search = req.query?.search || {}
+    //? https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+        //- { userId: { $regex: "6751e0e727ae5347fc01afd7", $options: "i" } }
+        for(let key in search){
+          // search[key]= {$regex: search[key], $options: ""} //* Case-sensative
+          search[key]= {$regex: search[key], $options: "i"} //* CAse- insensative
+        }
+
+        //* SORTING
+        //- URL?sort[fieldName]=asc&sort[fieldName2]=desc (asc: A-Z, desc: Z-A)
+        const sort = req.query?.sort || {}
+
+        //*
+        
+
+    const data = await BlogPost.find({...filter, ...search}).sort(sort)
+    // const data = await BlogPost.find().populate("categoryId");
     console.log(data);
 
     res.send({
