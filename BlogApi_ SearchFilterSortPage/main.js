@@ -69,11 +69,11 @@ app.use(async (req, res, next) => {
 
 /* ------------------------------------------------------- */
 //* MIDDLEWARE Filter Search Sort Pagination
-app.use(require("./src/midlewares/findSearchSortPage"))
+app.use(require("./src/middlewares/findSearchSortPage"))
 /* ------------------------------------------------------- */
 //* Routes:
 
-app.use(require("./src/midlewares/userControl")); //* user data
+app.use(require("./src/middlewares/userControl")); //* user data
 app.use("/blog/category", require("./src/routes/blogCategory.router")); //* blogCategory
 app.use("/blog/post", require("./src/routes/blogPost.router")); //* blogPost
 app.use("/user", require("./src/routes/user.router")); //* user
@@ -94,7 +94,7 @@ app.use("*", (req, res) => {
 });
 
 //* Catch errors
-app.use(require("./src/midlewares/errorHandler"));
+app.use(require("./src/middlewares/errorHandler"));
 
 /* ------------------------------------------------------- */
 
