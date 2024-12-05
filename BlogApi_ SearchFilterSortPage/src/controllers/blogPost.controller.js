@@ -23,22 +23,28 @@ module.exports.blogPost = {
 
     //* SEARCHING
     //- URL?search[fieldName]=value1&search[fieldName2]=value2
-    const search = req.query?.search || {}
+    const search = req.query?.search || {};
     //? https://www.mongodb.com/docs/manual/reference/operator/query/regex/
-        //- { userId: { $regex: "6751e0e727ae5347fc01afd7", $options: "i" } }
-        for(let key in search){
-          // search[key]= {$regex: search[key], $options: ""} //* Case-sensative
-          search[key]= {$regex: search[key], $options: "i"} //* CAse- insensative
-        }
+    //- { userId: { $regex: "6751e0e727ae5347fc01afd7", $options: "i" } }
+    for (let key in search) {
+      // search[key]= {$regex: search[key], $options: ""} //* Case-sensative
+      search[key] = { $regex: search[key], $options: "i" }; //* CAse- insensative
+    }
 
-        //* SORTING
-        //- URL?sort[fieldName]=asc&sort[fieldName2]=desc (asc: A-Z, desc: Z-A)
-        const sort = req.query?.sort || {}
+    //* SORTING
+    //- URL?sort[fieldName]=asc&sort[fieldName2]=desc (asc: A-Z, desc: Z-A)
+    const sort = req.query?.sort || {};
 
-        //*
-        
+    //*PAGINATION
+    //- URL?page=3&limit=20
+    //* LIMIT
+    let limit = Number(req.query?.limit);
+    limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE || 20)
+    console.log(limit);
 
-    const data = await BlogPost.find({...filter, ...search}).sort(sort)
+    const data = await BlogPost.find({ ...filter, ...search })
+      .sort(sort)
+      .limit(limit);
     // const data = await BlogPost.find().populate("categoryId");
     console.log(data);
 
