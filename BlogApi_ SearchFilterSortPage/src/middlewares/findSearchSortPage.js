@@ -64,7 +64,7 @@ module.exports = async (req, res, next) => {
   };
 
   //* GetModelListDetails
-  res.GetModelListDetails = async function (Model) {
+  res.getModelListDetails = async function (Model) {
     const data = await Model.find({ ...filter, ...search });
 
     let details = {
