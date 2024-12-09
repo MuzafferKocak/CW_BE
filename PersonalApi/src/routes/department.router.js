@@ -3,7 +3,6 @@
 |     //? Express - Personnel Api
 -------------------------------------------------*/
 
-
 const router = require("express").Router();
 /* ------------------------------------------------------- */
 
@@ -19,8 +18,8 @@ router
   .patch(department.update)
   .delete(department.delete);
 
-  //* /department/:id/personnel
-  
-  router.get("/:id/personnel", department.personnels)
+//* /department/:id/personnel
+
+router.get("/:id/personnel", department.personnels);
 
 module.exports = router;

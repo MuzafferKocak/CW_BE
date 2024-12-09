@@ -1,6 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
 
-
 class CustomError extends Error {
   name = "CustomError";
   statusCode = "";

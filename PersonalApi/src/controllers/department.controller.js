@@ -60,11 +60,8 @@ module.exports = {
 
   personnels: async (req, res) => {
     //! data
-    const filter ={departmentId:req.params.id}
-    const data = await res.getModelList(
-      Personnel,filter,
-      "departmentId"
-    );
+    const filter = { departmentId: req.params.id };
+    const data = await res.getModelList(Personnel, filter, "departmentId");
     res.status(200).send({
       error: false,
       //! detail
