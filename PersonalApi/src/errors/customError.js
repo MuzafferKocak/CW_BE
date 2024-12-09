@@ -1,4 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
+
+
 class CustomError extends Error {
   name = "CustomError";
   statusCode = "";
@@ -27,7 +29,7 @@ class BadRequestError extends Error {
   }
 }
 
-export class UnauthorizedError extends Error {
+class UnauthorizedError extends Error {
   statusCode = StatusCodes.UNAUTHORIZED;
   name = "UnauthorizedError";
   constructor(message = "Not authorized") {

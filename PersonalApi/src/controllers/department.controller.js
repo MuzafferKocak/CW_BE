@@ -1,10 +1,11 @@
 "use strict";
+
 /*------------------------------------------------
 |     //? Express - Personnel Api
 -------------------------------------------------*/
 
-
 const Department = require("../models/department.model");
+const Personnel = require("../models/personnel.model");
 
 module.exports = {
   list: async (req, res) => {
@@ -38,7 +39,9 @@ module.exports = {
 
   update: async (req, res) => {
     //! Does it perform update validation by default?
-    const data = await Department.updateOne({ _id: req.params.id }, req.body, {runValidators:true});
+    const data = await Department.updateOne({ _id: req.params.id }, req.body, {
+      runValidators: true,
+    });
 
     res.status(202).send({
       error: false,
@@ -57,11 +60,15 @@ module.exports = {
 
   personnels: async (req, res) => {
     //! data
-    const data = {};
+    const filter ={departmentId:req.params.id}
+    const data = await res.getModelList(
+      Personnel,filter,
+      "departmentId"
+    );
     res.status(200).send({
       error: false,
       //! detail
-      detail: {},
+      detail: await res.getModelListDetails(Personnel, filter),
     });
   },
 };

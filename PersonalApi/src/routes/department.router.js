@@ -19,4 +19,8 @@ router
   .patch(department.update)
   .delete(department.delete);
 
+  //* /department/:id/personnel
+  
+  router.get("/:id/personnel", department.personnels)
+
 module.exports = router;

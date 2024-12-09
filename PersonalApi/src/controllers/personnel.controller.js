@@ -4,11 +4,14 @@
 -------------------------------------------------*/
 
 const Personnel = require("../models/personnel.model");
+const passwordEncrypt = require("../helpers/passwordEncrypt")
 
 module.exports = {
   list: async (req, res) => {
     //! data
-    const data = await res.getModelList(Personnel, "departmentId");
+    const data = await res.getModelList(Personnel, {}, "departmentId");
+
+    console.log("------------", req.session);
 
     res.status(200).send({
       error: false,
@@ -19,16 +22,21 @@ module.exports = {
   },
 
   create: async (req, res) => {
-    //! isLead Control:
+    //! sistemde bir admin olacaksa ve db de admin önceden tanımlanmışsa
+    //* const isFirstAccount = (await Personnel.countDocuments()) === 0;
+    //* req.body.isAdmin = isFirstAccount ? true : false;
+
+    //! ya da direkt admin false
     req.body.isAdmin = false;
 
+    //! isLead Control:
     const isLead = req.body.isLead || false;
 
     if (isLead) {
       await Personnel.updateMany(
         { departmentId: req.body.departmentId, isLead: true },
         { isLead: false },
-        {runValidators:true}
+        { runValidators: true }
       );
     }
 
@@ -52,17 +60,24 @@ module.exports = {
 
   update: async (req, res) => {
     //! isLead Control:
+    const isLead = req.body.isLead || false;
+    
     if (isLead) {
-      const {departmentId} = await Personnel.findOne({_id:req.params.id},{departmentId:1})
+      const { departmentId } = await Personnel.findOne(
+        { _id: req.params.id },
+        { departmentId: 1 }
+      );
       await Personnel.updateMany(
         { departmentId, isLead: true },
         { isLead: false },
-        {runValidators:true}
+        { runValidators: true }
       );
     }
 
     //! Does it perform update validation by default?
-    const data = await Personnel.updateOne({ _id: req.params.id }, req.body,{runValidators:true});
+    const data = await Personnel.updateOne({ _id: req.params.id }, req.body, {
+      runValidators: true,
+    });
 
     res.status(202).send({
       error: false,
@@ -117,8 +132,8 @@ module.exports = {
       throw new Error("Please enter a valid username and password.");
     }
   },
-  
-  logout: async () => {
+
+  logout: async (req, res) => {
     req.session = null;
     res.send({
       error: false,
