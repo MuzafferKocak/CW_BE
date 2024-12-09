@@ -8,20 +8,32 @@ const Personnel = require("../models/personnel.model");
 module.exports = {
   list: async (req, res) => {
     //! data
-    const data = {};
+    const data = await res.getModelList(Personnel, "departmentId");
 
     res.status(200).send({
       error: false,
       //! detail
-      detail: {},
+      detail: await res.getModelListDetails(Personnel),
       data,
     });
   },
 
   create: async (req, res) => {
     //! isLead Control:
+    req.body.isAdmin = false;
+
+    const isLead = req.body.isLead || false;
+
+    if (isLead) {
+      await Personnel.updateMany(
+        { departmentId: req.body.departmentId, isLead: true },
+        { isLead: false },
+        {runValidators:true}
+      );
+    }
 
     const data = await Personnel.create(req.body);
+    //* TAsk: kendisi takim lideriyse bunu false a cekerse
 
     res.status(201).send({
       error: false,
@@ -40,9 +52,17 @@ module.exports = {
 
   update: async (req, res) => {
     //! isLead Control:
+    if (isLead) {
+      const {departmentId} = await Personnel.findOne({_id:req.params.id},{departmentId:1})
+      await Personnel.updateMany(
+        { departmentId, isLead: true },
+        { isLead: false },
+        {runValidators:true}
+      );
+    }
 
     //! Does it perform update validation by default?
-    const data = await Personnel.updateOne({ _id: req.params.id }, req.body);
+    const data = await Personnel.updateOne({ _id: req.params.id }, req.body,{runValidators:true});
 
     res.status(202).send({
       error: false,
@@ -72,15 +92,15 @@ module.exports = {
           res.errorStatusCode = 401;
           throw new Error("Login parameters are not true.");
         }
-        // Set Session:
+        //* Set Session:
         req.session = {
           id: user._id,
           password: user.password,
         };
-        // Set Cookie:
+        //* Set Cookie:
         if (req.body?.rememberMe) {
           req.session.rememberMe = true;
-          req.sessionOptions.maxAge = 1000 * 60 * 60 * 24 * 3; // 3 Days
+          req.sessionOptions.maxAge = 1000 * 60 * 60 * 24 * 3; //* 3 Days
         }
 
         res.status(200).send({
@@ -94,9 +114,10 @@ module.exports = {
       }
     } else {
       res.errorStatusCode = 401;
-      throw new Error("Please entry username and password.");
+      throw new Error("Please enter a valid username and password.");
     }
   },
+  
   logout: async () => {
     req.session = null;
     res.send({

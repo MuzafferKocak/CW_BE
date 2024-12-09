@@ -40,8 +40,11 @@ app.all("/", (req, res) => {
 });
 
 //* departments
+app.use("/department", require("./src/routes/department.router"))
 
 //* personnels
+app.use("/personnel", require("./src/routes/personnel.router"))
+
 
 //* not found routes
 app.all("*", async (req, res) => {
