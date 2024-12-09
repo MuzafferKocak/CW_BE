@@ -1,7 +1,7 @@
 "use strict";
-/* -------------------------------------------------------
-    EXPRESS - Personnel API
-    ------------------------------------------------------- */
+/*------------------------------------------------
+|     //? Express - Personnel Api
+-------------------------------------------------*/
 
 const express = require("express");
 const { dbConnection, mongoose } = require("./src/configs/dbConnection");
@@ -9,27 +9,27 @@ const app = express();
 
 /* ------------------------------------------------------- */
 
-// continue from here...
-// envVariables to process.env:
+//* continue from here...
+//* envVariables to process.env:
 require("dotenv").config();
 const PORT = process.env?.PORT || 8000;
 
-// asyncErrors to errorHandler:
+//* asyncErrors to errorHandler:
 require("express-async-errors");
 
 /* ------------------------------------------------------- */
-//db connection
+//* db connection
 dbConnection();
 
-//body parser
+//* body parser
 app.use(express.json());
 
-// cookie: httpOnly:true XSS Cross Site Scripting, secure:https
+//* cookie: httpOnly:true XSS Cross Site Scripting, secure:https
 
-// res.getModelList():
+//* res.getModelList():
 app.use(require("./src/middlewares/findSearchSortPage"));
 
-// HomePath:
+//* HomePath:
 app.all("/", (req, res) => {
   res.send({
     error: false,
@@ -39,11 +39,11 @@ app.all("/", (req, res) => {
   });
 });
 
-//departments
+//* departments
 
-//personnels
+//* personnels
 
-//not found routes
+//* not found routes
 app.all("*", async (req, res) => {
   res.status(404).send({
     error: true,
@@ -51,15 +51,15 @@ app.all("*", async (req, res) => {
   });
 });
 
-// errorHandler:
+//* errorHandler:
 app.use(require("./src/middlewares/errorHandler"));
 
 // RUN SERVER:
 app.listen(PORT, () => console.log("http://127.0.0.1:" + PORT));
 
 /* ------------------------------------------------------- */
-// Syncronization (must be in commentLine):
-// require('./src/helpers/sync')()
+//* Syncronization (must be in commentLine):
+//* require('./src/helpers/sync')()
 
 if (process.env.NODE_ENV == "development") {
   return;
