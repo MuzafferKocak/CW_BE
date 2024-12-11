@@ -25,14 +25,15 @@ dbConnection();
 app.use(express.json());
 
 //* cookie: httpOnly:true XSS Cross Site Scripting, secure:https
-const session = require("cookie-session")
+const session = require("cookie-session");
 
 //* Run with general settings:
-app.use(session({
-  secret:process.env.SECRET_KEY,
-  httpOnly: false,
-}))
-
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    httpOnly: false,
+  })
+);
 
 //* res.getModelList():
 app.use(require("./src/middlewares/queryHandler"));
@@ -48,11 +49,12 @@ app.all("/", (req, res) => {
 });
 
 //* departments
-app.use("/department", require("./src/routes/department"))
+// app.use("/department", require("./src/routes/department"))
 
 //* personnels
-app.use("/personnel", require("./src/routes/personnel"))
-
+// app.use("/personnel", require("./src/routes/personnel"))
+//* Route
+app.use(require("./src/routes/index"));
 
 //* not found routes
 app.all("*", async (req, res) => {

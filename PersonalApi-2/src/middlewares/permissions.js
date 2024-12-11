@@ -1,12 +1,14 @@
 "use strict";
 
-const department = require("../models/department");
-
 /*------------------------------------------------
 |     //? Express - Personnel Api
 -------------------------------------------------*/
 
+
+
 module.exports = {
+
+
   isLogin: (req, res, next) => {
     if (req.user && req.user.isActive) {
       next();

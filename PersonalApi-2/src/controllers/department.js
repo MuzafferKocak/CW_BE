@@ -66,6 +66,7 @@ module.exports = {
       error: false,
       //! detail
       detail: await res.getModelListDetails(Personnel, filter),
+      data,
     });
   },
 };
