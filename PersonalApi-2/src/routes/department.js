@@ -6,7 +6,7 @@
 const router = require("express").Router();
 /* ------------------------------------------------------- */
 
-const department = require("../controllers/department.controller");
+const department = require("../controllers/department");
 
 /* ------------------------------------------------------- */
 router.route("/").get(department.list).post(department.create);

@@ -6,7 +6,7 @@
 const router = require("express").Router();
 /* ------------------------------------------------------- */
 
-const personnel = require("../controllers/personnel.controller");
+const personnel = require("../controllers/personnel");
 const idValidation = require("../middlewares/idValidation");
 
 // URL: /personnels

@@ -4,8 +4,8 @@
 |     //? Express - Personnel Api
 -------------------------------------------------*/
 
-const Department = require("../models/department.model");
-const Personnel = require("../models/personnel.model");
+const Department = require("../models/department");
+const Personnel = require("../models/personnel");
 
 module.exports = {
   list: async (req, res) => {

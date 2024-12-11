@@ -3,8 +3,8 @@
 |     //? Express - Personnel Api
 -------------------------------------------------*/
 
-const Personnel = require("../models/personnel.model");
-const passwordEncrypt = require("../helpers/passwordEncrypt")
+const Personnel = require("../models/personnel");
+const passwordEncrypt = require("../helpers/passwordEncrypt");
 
 module.exports = {
   list: async (req, res) => {
@@ -61,7 +61,7 @@ module.exports = {
   update: async (req, res) => {
     //! isLead Control:
     const isLead = req.body.isLead || false;
-    
+
     if (isLead) {
       const { departmentId } = await Personnel.findOne(
         { _id: req.params.id },
