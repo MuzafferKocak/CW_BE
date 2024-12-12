@@ -18,6 +18,14 @@ const PORT = process.env?.PORT || 8000;
 require("express-async-errors");
 
 /* ------------------------------------------------------- */
+//* Logger
+//* npm i morgan
+
+const morgan = require("morgan")
+//* Morgan is a Middlewares
+app.use(morgan("tiny"))
+
+/* ------------------------------------------------------- */
 //* db connection
 dbConnection();
 

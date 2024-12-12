@@ -11,7 +11,7 @@ module.exports = {
     //! data
     const data = await res.getModelList(Personnel, {}, "departmentId");
 
-    console.log("------------", req.session);
+    // console.log("------------", req.session);
 
     res.status(200).send({
       error: false,
