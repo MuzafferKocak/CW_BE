@@ -5,8 +5,10 @@
 
 //* Logger
 //* npm i morgan
+//* https://expressjs.com/en/resources/middleware/morgan.html
 
-const morgan = require("morgan")
+const morgan = require("morgan");
+
 //* Morgan is a Middlewares
 // app.use(morgan("tiny"))
 // app.use(morgan("short"))
@@ -23,15 +25,15 @@ const morgan = require("morgan")
 // }))
 
 //* Write to file day-by-day
-const fs = require("node:fs")
-const now = new Date()
+const fs = require("node:fs");
+const now = new Date();
 // console.log(now, typeof now);
-const today = now.toISOString().split("T")[0]
+const today = now.toISOString().split("T")[0];
 // console.log(today);
 // app.use(morgan("combined",{
 //     stream: fs.createWriteStream(`./logs/${today}.log`, {flags: "a+"})
 //    }))
 
-module.exports = morgan("combined",{
-        stream: fs.createWriteStream(`./logs/${today}.log`, {flags: "a+"})
-       })
+module.exports = morgan("combined", {
+  stream: fs.createWriteStream(`./logs/${today}.log`, { flags: "a+" }),
+});

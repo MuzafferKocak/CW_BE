@@ -12,6 +12,20 @@ module.exports = {
   //*Login & Logout
 
   login: async (req, res) => {
+    /*
+     #swagger.tags = ["Authentication"]
+     #swagger.summary = "Login"
+     #swagger.description = "Login with username & Password"
+     #swagger.parameters ["body"] = {
+     in: "body",
+     required: true,
+     schema:{
+     username: "*String",
+     password: "*String"
+     }
+     },
+     _swagger.deprecated = true
+     */
     const { username, password } = req.body; //* bir porsenelin sistem girisi yapmasini saglayacak parametre
 
     if (username && password) {
@@ -44,6 +58,10 @@ module.exports = {
   },
 
   logout: async (req, res) => {
+     /*
+       #swagger.tags = ["Authentication"]
+       #swagger.summary = "Logout"
+      */
     req.session = null; //* oturum bilgileri temizlendi
 
     const auth = req.headers?.authorization || null;
@@ -58,5 +76,3 @@ module.exports = {
     }
   },
 };
-
-

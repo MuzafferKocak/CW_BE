@@ -3,16 +3,15 @@
 |     //? Express - Personnel Api
 -------------------------------------------------*/
 
-
 // Swagger Autogen
 // https://swagger-autogen.github.io/docs/
 // $ npm i swagger-autogen # JSON creator
 // $ npm i swagger-ui-express
 // $ npm i redoc-express
 /* ------------------------------------------------------- */
-require('dotenv').config()
-const HOST = process.env?.HOST || '127.0.0.1'
-const PORT = process.env?.PORT || 8000
+require("dotenv").config();
+const HOST = process.env?.HOST || "127.0.0.1";
+const PORT = process.env?.PORT || 8000;
 /* ------------------------------------------------------- *
 const options = {
     openapi:          <string>,     // Enable/Disable OpenAPI.                        By default is null
@@ -26,45 +25,49 @@ const options = {
 /* ------------------------------------------------------- */
 
 // const swaggerAutogen = require("swagger-autogen")({openapi: "3.0.0", language: "tr-TR"})
-const swaggerAutogen = require("swagger-autogen")()
+const swaggerAutogen = require("swagger-autogen")();
 
-const packageJson = require('./package.json')
+const packageJson = require("./package.json");
 
 const document = {
-    // info: {
-    //     version: "1.0.0",
-    //     title: "Personnel API",
-    //     description: "Personnel Management System v1.0",
-    //     termOfService: "http://127.0.0.1/#",
-    //     contact:{name: "MeK", email: "mek@cv.com"},
-    //     license: {name: "Apache License"}
-    // }
-    info: {
-        version: packageJson.version,
-        title: packageJson.name,
-        description: packageJson.description,
-        // termOfService: "http://127.0.0.1/#",
-        contact: { name: packageJson.author, email: "qadir@clarusway.com" },
-        license: { name: packageJson.license }
+  // info: {
+  //     version: "1.0.0",
+  //     title: "Personnel API",
+  //     description: "Personnel Management System v1.0",
+  //     termOfService: "http://127.0.0.1/#",
+  //     contact:{name: "MeK", email: "mek@cv.com"},
+  //     license: {name: "Apache License"}
+  // }
+  info: {
+    version: packageJson.version,
+    title: packageJson.name,
+    description: packageJson.description,
+    // termOfService: "http://127.0.0.1/#",
+    contact: { name: packageJson.author, email: "mek@cw.com" },
+    license: { name: packageJson.license },
+  },
+  host: HOST + ":" + PORT,
+  basePath: "/",
+  schemes: ["http", "https"],
+  securityDefinitions: {
+    //- Simple Token
+    Token: {
+      type: "apiKey",
+      in: "header",
+      name: "Authorization",
+      description: "Simple Token * Example: <b>Token ...tokenKey...</b>",
     },
-    host: HOST + ":" + PORT,
-    basePath: "/",
-    schemes: ["http", "https"],
-    securityDefinitions: {
-        //- Simple Token
-        Token: {
-            type: "apiKey",
-            in: "header",
-            name:"Authorization",
-            description: "Simple Token * Example: <b>Token ...tokenKey...</b>"
-        }
-    },
-    security: [{Token: []}]
-}
+  },
+  security: [{ Token: [] }],
+  //*Models & their fields
+  definitions: {
+    Department: require("./src/models/department").schema.obj,
+    Personnel: require("./src/models/personnel").schema.obj,
+  },
+};
 
-const routes = ["./index.js"]
-const outputFile = "./swagger.json"
+const routes = ["./index.js"];
+const outputFile = "./swagger.json";
 
 //* RUN
-swaggerAutogen(outputFile, routes, document)
-
+swaggerAutogen(outputFile, routes, document);
