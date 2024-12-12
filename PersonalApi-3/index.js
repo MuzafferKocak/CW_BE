@@ -23,8 +23,19 @@ require("express-async-errors");
 
 const morgan = require("morgan")
 //* Morgan is a Middlewares
-app.use(morgan("tiny"))
+// app.use(morgan("tiny"))
+// app.use(morgan("short"))
+// app.use(morgan("dev"))
+// app.use(morgan("common"))
+// app.use(morgan("combined"))
+//* Custom Logs
+// app.use(morgan('TIME=":date[iso]" - URL=":url" - Method=":method" - IP=":remote-addr" - Ref=":referrer" - Status=":status" - Sign=":user-agent" (:response-time[digits] ms)'))
+//* Write to file:
+const fs = require("node:fs")
 
+app.use(morgan("combined",{
+  stream: fs.createWriteStream("./access.log", {flags: "a+"})
+}))
 /* ------------------------------------------------------- */
 //* db connection
 dbConnection();
