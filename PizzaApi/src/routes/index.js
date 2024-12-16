@@ -3,32 +3,29 @@
 |     //? Express - Pizza Api
 -------------------------------------------------*/
 
-
-
-
-const router = require('express').Router()
+const router = require("express").Router();
 /* ------------------------------------------------------- */
-// ROUTER INDEX:
+//* ROUTER INDEX:
 
-// URL: /
+//* URL: /
 //!
-/*-------------------------------------------
-// auth:
+/*-------------------------------------------*/
+//* auth:
 router.use('/auth', require('./auth'))
-// user:
+//* user:
 router.use('/users', require('./user'))
-// token:
+//* token:
 router.use('/tokens', require('./token'))
 
-// order:
+//* order:
 router.use('/orders', require('./order'))
-// pizza:
+//* pizza:
 router.use('/pizzas', require('./pizza'))
-// topping:
+//* topping:
 router.use('/toppings', require('./topping'))
 
-// document:
+//* document:
 router.use('/documents', require('./document'))
 
 /* ------------------------------------------------------- */
-module.exports = router
+module.exports = router;

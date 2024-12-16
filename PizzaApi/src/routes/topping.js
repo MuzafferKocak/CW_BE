@@ -3,25 +3,22 @@
 |     //? Express - Pizza Api
 -------------------------------------------------*/
 
-
-
-const router = require('express').Router()
+const router = require("express").Router();
 /* ------------------------------------------------------- */
-// routes/topping:
+//* routes/topping:
 
-const topping = require('../controllers/topping')
+const topping = require("../controllers/topping");
 
-// URL: /toppings
+//* URL: /toppings
 
-router.route('/')
-    .get(topping.list)
-    .post(topping.create)
+router.route("/").get(topping.list).post(topping.create);
 
-router.route('/:id')
-    .get(topping.read)
-    .put(topping.update)
-    .patch(topping.update)
-    .delete(topping.delete)
+router
+  .route("/:id")
+  .get(topping.read)
+  .put(topping.update)
+  .patch(topping.update)
+  .delete(topping.delete);
 
 /* ------------------------------------------------------- */
-module.exports = router
+module.exports = router;

@@ -3,26 +3,22 @@
 |     //? Express - Pizza Api
 -------------------------------------------------*/
 
-
-
-
-const router = require('express').Router()
+const router = require("express").Router();
 /* ------------------------------------------------------- */
-// routes/pizza:
+//* routes/pizza:
 
-const pizza = require('../controllers/pizza')
+const pizza = require("../controllers/pizza");
 
-// URL: /pizzas
+//* URL: /pizzas
 
-router.route('/')
-    .get(pizza.list)
-    .post(pizza.create)
+router.route("/").get(pizza.list).post(pizza.create);
 
-router.route('/:id')
-    .get(pizza.read)
-    .put(pizza.update)
-    .patch(pizza.update)
-    .delete(pizza.delete)
+router
+  .route("/:id")
+  .get(pizza.read)
+  .put(pizza.update)
+  .patch(pizza.update)
+  .delete(pizza.delete);
 
 /* ------------------------------------------------------- */
-module.exports = router
+module.exports = router;

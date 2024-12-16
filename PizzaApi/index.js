@@ -49,8 +49,9 @@ app.use(require("./src/middlewares/queryHandler"));
 //* Routes:
 
 //! routes/index.js:
-//* app.use("/", require("./src/routes/"));
+app.use("/", require("./src/routes/"));
 
+/* ------------------------------------------------------- *
 //* auth:
 app.use("/auth", require("./src/routes/auth"));
 //* user:
@@ -68,6 +69,7 @@ app.use("/topping", require("./src/routes/topping"));
 //* document:
 app.use("/documents", require("./src/routes/document"));
 
+/* ------------------------------------------------------- */
 //* HomePath:
 app.all("/", (req, res) => {
   res.send({
