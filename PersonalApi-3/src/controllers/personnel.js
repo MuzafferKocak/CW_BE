@@ -40,6 +40,13 @@ module.exports = {
     /*
         #swagger.tags = ['Personnels']
         #swagger.summary = 'Create Personnel'
+        #swagger.parameters['body'] = {
+            in: 'body',
+            required: true,
+            schema: {
+                $ref: '#/definitions/Personnel'
+            }
+        }
     */
     //! sistemde bir admin olacaksa ve db de admin önceden tanımlanmışsa
     //* const isFirstAccount = (await Personnel.countDocuments()) === 0;
