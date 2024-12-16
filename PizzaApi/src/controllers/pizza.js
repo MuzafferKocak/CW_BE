@@ -3,8 +3,7 @@
 |     //? Express - Pizza Api
 -------------------------------------------------*/
 
-
-// Pizza Controller:
+//* Pizza Controller:
 
 const Pizza = require("../models/pizza");
 
@@ -23,15 +22,28 @@ module.exports = {
                 </ul>
             `
         */
+    const data = await res.getModelsList(Pizza);
+
+    res.status(200).send({
+      error: false,
+      details: await res.getModelsListDetails(Pizza),
+      data,
+    });
   },
 
-  // CRUD:
+  //* CRUD:
 
   create: async (req, res) => {
     /*
             #swagger.tags = ["Pizzas"]
             #swagger.summary = "Create Pizza"
         */
+    const data = await Pizza.create(req.body);
+
+    res.status(201).send({
+      error: false,
+      data,
+    });
   },
 
   read: async (req, res) => {
@@ -39,6 +51,13 @@ module.exports = {
             #swagger.tags = ["Pizzas"]
             #swagger.summary = "Get Single Pizza"
         */
+
+    const data = await Pizza.findOne({ _id: req.params.id });
+
+    res.status(200).send({
+      error: false,
+      data,
+    });
   },
 
   update: async (req, res) => {
@@ -46,6 +65,16 @@ module.exports = {
             #swagger.tags = ["Pizzas"]
             #swagger.summary = "Update Pizza"
         */
+
+    const data = await Pizza.updateOne({ _id: req.params.id }, req.body, {
+      runValidators: true,
+    });
+
+    res.status(202).send({
+      error: false,
+      data,
+      new: await Pizza.findOne({ _id: req.params.id }),
+    });
   },
 
   delete: async (req, res) => {
@@ -55,5 +84,10 @@ module.exports = {
         */
 
     const data = await Pizza.deleteOne({ _id: req.params.id });
+
+    res.status(data.deletedCount ? 204 : 404).send({
+      error: !data.deletedCount,
+      data,
+    });
   },
 };

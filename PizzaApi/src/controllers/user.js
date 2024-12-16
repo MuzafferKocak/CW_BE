@@ -6,7 +6,7 @@
 
 
 
-// User Controller:
+//* User Controller:
 
 const User = require("../models/user");
 const { BadRequestError } = require("../errors/customError");
@@ -36,7 +36,7 @@ module.exports = {
     });
   },
 
-  // CRUD:
+  //* CRUD:
 
   create: async (req, res) => {
     /*

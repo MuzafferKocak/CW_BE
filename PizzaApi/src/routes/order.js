@@ -5,11 +5,11 @@
 
 const router = require("express").Router();
 /* ------------------------------------------------------- */
-// routes/order:
+//* routes/order:
 
 const order = require("../controllers/order");
 
-// URL: /orders
+//* URL: /orders
 
 router.route("/").get(order.list).post(order.create);
 

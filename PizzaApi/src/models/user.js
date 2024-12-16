@@ -3,13 +3,10 @@
 |     //? Express - Pizza Api
 -------------------------------------------------*/
 
-
-
 const { mongoose } = require("../configs/dbConnection");
-/* ------------------------------------------------------- */
-// User Model:
-
 const passwordEncrypt = require("../helpers/passwordEncrypt");
+/* ------------------------------------------------------- */
+//* User Model:
 
 const UserSchema = new mongoose.Schema(
   {
@@ -24,8 +21,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      set: passwordEncrypt
-     
+      set: passwordEncrypt,
     },
 
     email: {
@@ -35,7 +31,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       validate: [
         //! regex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        (email) => true,
+        (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email),
         "Email format is not correct.",
       ],
     },
@@ -56,5 +52,5 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-// Model:
+//* Model:
 module.exports = mongoose.model("User", UserSchema);

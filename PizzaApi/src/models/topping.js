@@ -5,7 +5,7 @@
 
 const { mongoose } = require("../configs/dbConnection");
 /* ------------------------------------------------------- */
-// Topping Model:
+//* Topping Model:
 
 const ToppingSchema = new mongoose.Schema(
   {
@@ -22,5 +22,5 @@ const ToppingSchema = new mongoose.Schema(
   }
 );
 
-// Model:
+//* Model:
 module.exports = mongoose.model("Topping", ToppingSchema);

@@ -65,12 +65,12 @@ module.exports = {
     const auth = req.headers?.authorization || null;
     const tokenKey = auth ? auth.split(" ") : null;
     let deleted = null;
-    // if (tokenKey && tokenKey[0] == "Token") 
-    if (tokenKey?.at(0) == "Token"){
+    // if (tokenKey && tokenKey[0] == "Token")
+    if (tokenKey?.at(0) == "Token") {
       deleted = await Token.deleteOne({ token: tokenKey[1] });
       // return res.status(200).send({
       //   message: "logout token deleted",
-      //   deleted, 
+      //   deleted,
       // });
     }
 
