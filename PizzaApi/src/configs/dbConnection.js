@@ -1,7 +1,7 @@
-"use strict"
-/* -------------------------------------------------------
-    NODEJS EXPRESS | CLARUSWAY FullStack Team
-------------------------------------------------------- */
+"use strict";
+/*------------------------------------------------
+|     //? Express - Pizza Api
+-------------------------------------------------*/
 // MongoDB Connection:
 
 const mongoose = require('mongoose')
