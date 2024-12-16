@@ -22,11 +22,11 @@ module.exports = {
                 </ul>
             `
         */
-    const data = await res.getModelsList(Pizza);
+    const data = await res.getModelList(Pizza);
 
     res.status(200).send({
       error: false,
-      details: await res.getModelsListDetails(Pizza),
+      details: await res.getModelListDetails(Pizza),
       data,
     });
   },
@@ -51,7 +51,6 @@ module.exports = {
             #swagger.tags = ["Pizzas"]
             #swagger.summary = "Get Single Pizza"
         */
-
     const data = await Pizza.findOne({ _id: req.params.id });
 
     res.status(200).send({
