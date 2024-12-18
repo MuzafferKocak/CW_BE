@@ -3,7 +3,7 @@
 |     //? Express - Pizza Api
 -------------------------------------------------*/
 
-// Auth Controller:
+//* Auth Controller:
 
 const User = require("../models/user");
 const Token = require("../models/token");
