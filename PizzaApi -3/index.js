@@ -46,6 +46,9 @@ app.use(require("./src/middlewares/logger"));
 app.use(require("./src/middlewares/queryHandler"));
 
 /* ------------------------------------------------------- */
+//* Email
+
+/* ------------------------------------------------------- */
 //* Routes:
 
 //! routes/index.js:
