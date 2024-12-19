@@ -47,7 +47,44 @@ app.use(require("./src/middlewares/queryHandler"));
 
 /* ------------------------------------------------------- */
 //* Email
+const nodemailer = require("nodemailer");
 
+//*Create a new Test Account (fake email)
+// nodemailer.createTestAccount().then((data) => console.log(data));
+
+// {
+//   user: 'mbpvfrm7hckl2ksq@ethereal.email',
+//   pass: '4vvr1g8e7b9mhthD6r',
+//   smtp: { host: 'smtp.ethereal.email', port: 587, secure: false },
+//   imap: { host: 'imap.ethereal.email', port: 993, secure: true },
+//   pop3: { host: 'pop3.ethereal.email', port: 995, secure: true },
+//   web: 'https://ethereal.email',
+//   mxEnabled: false
+// }
+
+//* Connection to MAilServer/SMTP:
+const transporter = nodemailer.createTransport({
+  //*SMTP
+  host: "smtp.ethereal.email",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "mbpvfrm7hckl2ksq@ethereal.email",
+    pass: "4vvr1g8e7b9mhthD6r",
+  }
+})
+// console.log(transporter);
+
+//* Send Mail
+transporter.sendMail({
+  from: "mbpvfrm7hckl2ksq@ethereal.email", //*yazilmasi mecburi degil
+  to: "mek@cw.com",
+  subject: "Hello", //* mail basligi
+  text: "Hello There. How are you?", //* Mail icerigi düz metin
+  html: "<h1>Hello There</h1><p>How are you?</p>", //* Mail icerigi düz metin
+}, function(error, success){
+  success ? console.log("Succes:", success) : console.log("Error:", error);
+})
 /* ------------------------------------------------------- */
 //* Routes:
 
