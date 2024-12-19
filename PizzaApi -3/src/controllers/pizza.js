@@ -40,6 +40,16 @@ module.exports = {
         */
     const data = await Pizza.create(req.body);
 
+    console.log("file", req.file); //* upload.single
+    console.log("files", req.files); //* upload.array
+
+    req.body.images = []
+    if (req.files) {
+      for (let file of req.files) {
+        req.body.images.push(file.path);
+      }
+    }
+
     res.status(201).send({
       error: false,
       data,

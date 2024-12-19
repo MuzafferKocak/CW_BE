@@ -110,6 +110,10 @@ transporter.sendMail(
 /* ------------------------------------------------------- */
 //* Routes:
 
+//*Static Files
+// app.use("./URL", express.static("./folder"))
+app.use("./upload", express.static("./upload"))
+
 //! routes/index.js:
 app.use("/", require("./src/routes/"));
 
