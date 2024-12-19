@@ -45,7 +45,7 @@ app.use(require("./src/middlewares/logger"));
 //* findSearchSortPage / res.getModelList:
 app.use(require("./src/middlewares/queryHandler"));
 
-/* ------------------------------------------------------- */
+/* ------------------------------------------------------- *
 //* Email
 const nodemailer = require("nodemailer");
 
@@ -85,6 +85,28 @@ transporter.sendMail({
 }, function(error, success){
   success ? console.log("Succes:", success) : console.log("Error:", error);
 })
+/* ------------------------------------------------------- *
+//* GoogleMail (gmail.com)
+const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "mkojak75@gmail.com",
+    pass: "",
+  },
+});
+transporter.sendMail(
+  {
+    from: "mbpvfrm7hckl2ksq@ethereal.email",
+    to: "mkojak75@gmail.com",
+    subject: "Hello",
+    text: "Hello There. How are you?",
+    html: "<h1>Hello There</h1><p>How are you?",
+  },
+  function (error, success) {
+    success ? console.log("Succes:", success) : console.log("Error:", error);
+  }
+);
 /* ------------------------------------------------------- */
 //* Routes:
 
