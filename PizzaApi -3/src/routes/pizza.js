@@ -35,7 +35,7 @@ router
   .get(pizza.list)
   // .post(pizza.create);
   // .post(upload.single("image"), pizza.create); //* tek dosya
-.post(upload.array('image'), pizza.create) //* Cok dosya (tavsiye)
+  .post(upload.array("image"), pizza.create); //* Cok dosya (tavsiye)
 // .post(upload.any(), pizza.create) //* cok dosya fieldname önemsiz
 
 router

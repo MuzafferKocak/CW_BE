@@ -43,7 +43,7 @@ module.exports = {
     console.log("file", req.file); //* upload.single
     console.log("files", req.files); //* upload.array
 
-    req.body.images = []
+    req.body.images = [];
     if (req.files) {
       for (let file of req.files) {
         req.body.images.push(file.path);
