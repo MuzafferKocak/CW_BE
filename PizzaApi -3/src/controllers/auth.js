@@ -49,7 +49,6 @@ module.exports = {
 
       tokenData = await Token.create({ userId: user._id, token: tokenKey });
     }
-    //* Simple Token
 
     //* JWT
     //* ACCESS DATA
