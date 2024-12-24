@@ -62,18 +62,7 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    isStaffOrAdmin: (req, res, next) => {
-      if (
-        req.user &&
-        req.user.isActive &&
-        (req.user.isAdmin || req.user.isStaff)
-      ) {
-        next();
-      } else {
-        res.errorStatusCode = 403;
-        throw new Error("NoPermission: ");
-      }
-    },
+    
 
     isStaff: {
       type: Boolean,

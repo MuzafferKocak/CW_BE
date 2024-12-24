@@ -42,6 +42,7 @@ app.use(require("./src/middlewares/queryHandler"));
 /* ------------------------------------------------------- */
 //* Routes:
 
+
 //* HomePath:
 app.all("/", (req, res) => {
   res.send({
@@ -58,6 +59,7 @@ app.all("/", (req, res) => {
 
 //* Routes:
 // app.use(require('./src/routes'))
+app.use(require("./src/routes/index"))
 
 /* ------------------------------------------------------- */
 

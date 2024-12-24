@@ -91,7 +91,10 @@ module.exports = {
     */
 
     req.body.updatedId = req.user._id;
-    const data = await Car.updateOne(req.body, { runValidators: true });
+    let customFilter = { _id: req.params.id };
+    const data = await Car.updateOne(customFilter, req.body, {
+      runValidators: true,
+    });
 
     res.status(202).send({
       error: false,
