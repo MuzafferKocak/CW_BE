@@ -23,7 +23,7 @@ module.exports = {
       next();
     } else {
       res.errorStatusCode = 403;
-      throw new Error("NoPermission: ");
+      throw new Error("NoPermission: You must login and to be admin or staff ");
     }
   },
 
