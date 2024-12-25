@@ -9,8 +9,8 @@ const router = require("express").Router();
 router.use("/auth", require("./auth"));
 router.use("/users", require("./user"));
 router.use("/cars", require("./car"));
-// router.use("/reservation", require("/reservation"))
+router.use("/reservations", require("./reservation"))
 router.use("/tokens", require("./token"))
-// router.use("/document", require("/document"))
+router.use("/documents", require("./document"))
 
 module.exports = router;

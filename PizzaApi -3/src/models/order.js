@@ -33,6 +33,7 @@ const OrderSchema = new mongoose.Schema(
       required: true,
     },
     amount: {
+      //*create
       type: Number,
       default: function () {
         return this.quantity * this.price;
