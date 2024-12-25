@@ -57,7 +57,49 @@ module.exports = {
       });
     }
   },
-  read: async (req, res) => {},
-  update: async (req, res) => {},
-  delete: async (req, res) => {},
+  read: async (req, res) => {
+    let customFilter = {};
+
+    if (!req.user.isAdmin && !req.user.isStaff) {
+      customFilter = { userId: req.user._id };
+    }
+    const data = await Reservation.findOne({
+      _id: req.params.id,
+      ...customFilter,
+    }).populate([
+      { path: "userId", select: "username fistName lastName" },
+      { path: "carId" },
+      { path: "createdId", select: "username" },
+      { path: "updatedId", select: "username" },
+    ]);
+
+    res.status(200).send({
+      error: false,
+      data,
+    });
+  },
+  update: async (req, res) => {
+    if (!req.user.isAdmin) {
+      delete req.body.userId;
+    }
+
+    req.body.updatedId = req.user._id;
+    const data = await Reservation.updateOne({ _id: req.params.id }, req.body, {
+      runValidators: true,
+    });
+
+    res.status(202).send({
+      error: false,
+      data,
+      new: await Reservation.findOne({ _id: req.params.id }),
+    });
+  },
+  delete: async (req, res) => {
+    const data = await Reservation.deleteOne({ _id: req.params.id });
+
+    res.status(data.deletedCount ? 204 : 404).send({
+      error: !data.deletedCount,
+      data,
+    });
+  },
 };
