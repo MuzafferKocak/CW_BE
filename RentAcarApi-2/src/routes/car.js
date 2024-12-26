@@ -9,7 +9,7 @@ const permission = require("../middlewares/permissions");
 /* ------------------------------------------------------- */
 //* routes/car:
 
-router.route("/").get(car.list).post(permission.isStaffOrAdmin, car.create);
+router.route("/").get(car.list).post(car.create);
 
 router
   .route("/:id")
@@ -18,5 +18,4 @@ router
   .patch(permission.isStaffOrAdmin, car.update)
   .delete(permission.isAdmin, car.delete);
 
-
-  module.exports = router
+module.exports = router;

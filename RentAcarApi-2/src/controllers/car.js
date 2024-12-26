@@ -82,6 +82,7 @@ module.exports = {
 
     res.status(201).send({
       error: false,
+      message: "User is not authenticated",
       data,
     });
   },

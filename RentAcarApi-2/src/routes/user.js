@@ -15,7 +15,7 @@ const user = require("../controllers/user");
 router
   .route("/")
   .get( user.list)
-  .post(permissions.isAdmin, user.create);
+  .post(user.create);
 
 router
   .route("/:id")
