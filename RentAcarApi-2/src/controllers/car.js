@@ -6,7 +6,7 @@
 //* Car Controller:
 
 const Car = require("../models/car");
-const Reservation = require("../models/reservation")
+const Reservation = require("../models/reservation");
 
 module.exports = {
   list: async (req, res) => {
@@ -24,43 +24,56 @@ module.exports = {
         `
     */
 
-    let customFilter = { isAvailable: true };
+    try {
+      //* Varsayılan olarak sadece mevcut (isAvailable) araçları listeler.
+      let customFilter = { isAvailable: true };
 
-    const { startDate: getStartDate, endDate: getEndDate } = req.query;
-    if (getStartDate && getEndDate) {
-      //* Belirtilen tarihlerde reserve edilmis araclari bulmak icin reservation modelini sorgulama
-      const reservedCars = await Reservation.find(
+      //* Query parametrelerinden tarihleri al
+      const { startDate: getStartDate, endDate: getEndDate } = req.query;
+
+      //* Eğer tarih verilmişse rezervasyon kontrolü yap
+      if (getStartDate && getEndDate) {
+        const reservedCars = await Reservation.find(
+          {
+            $nor: [
+              { startDate: { $gt: getEndDate } }, //* Tarihler çakışıyor mu?
+              { endDate: { $lt: getStartDate } },
+            ],
+          },
+          { _id: 0, carId: 1 }
+        ).distinct("carId");
+
+        //* Rezervasyon çakışması olan araçları filtrele
+        if (reservedCars.length) {
+          customFilter._id = { $nin: reservedCars };
+        }
+      }
+
+      //* Eğer tarih yoksa tüm uygun araçları getir
+      const data = await res.getModelList(Car, customFilter, [
         {
-          $nor: [
-            { startDate: { $gt: getStartDate } },
-            { endDate: { $lt: getEndDate } },
-          ],
+          path: "createdId",
+          select: "username",
         },
-        { _id: 0, carId: 1 }
-      ).distinct("carId");
-    }
-    if (reservedCars.length) {
-      customFilter._id = { $nin: reservedCars };
-    } else {
-      req.errorStatusCode = 401;
-      throw new Error("startDate and endDate queries are requiered");
-    }
+        {
+          path: "updatedId",
+          select: "username",
+        },
+      ]);
 
-    const data = await res.getModelList(Car, customFilter, [
-      {
-        path: "createdId",
-        select: "username",
-      },
-      {
-        path: "updatedId",
-        select: "username",
-      },
-    ]);
-    res.status(200).send({
-      error: false,
-      details: await res.getModelListDetails(Car, customFilter),
-      data,
-    });
+      //* Sonuçları döndür
+      res.status(200).send({
+        error: false,
+        details: await res.getModelListDetails(Car, customFilter),
+        data,
+      });
+    } catch (error) {
+      //* Hata durumunda mesaj döndür
+      res.status(req.errorStatusCode || 500).send({
+        error: true,
+        message: error.message || "An error occurred while listing cars.",
+      });
+    }
   },
   create: async (req, res) => {
     /*
