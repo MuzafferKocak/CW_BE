@@ -6,7 +6,7 @@
 //* Reservation Controller:
 
 const Reservation = require("../models/reservation");
-const user = require("./user");
+const Car = require("../models/car")
 
 module.exports = {
   list: async (req, res) => {
@@ -62,31 +62,71 @@ module.exports = {
     req.body.updatedId = req.user._id;
 
     const userReservationDates = await Reservation.findOne({
-      userId: req.body.userId,
-      $nor: [
-        { startDate: { $gt: req.body.endDate } }, //*resevation baslangic tarihi mevcut resarvationun bitis tarihinden büyükse sorun yok
-        { endDate: { $lt: req.body.startDate } }, //*reservation bitis tarihi mevcut reservationun baslangic tarihinden kücükse sorun yok
+      carId: req.body.carId,
+      $and: [
+        { startDate: { $lt: req.body.endDate } }, //*resevation baslangic tarihi mevcut resarvationun bitis tarihinden büyükse sorun yok
+        { endDate: { $gt: req.body.startDate } }, //*reservation bitis tarihi mevcut reservationun baslangic tarihinden kücükse sorun yok
       ],
     });
 
     if (userReservationDates) {
-      res.errorStatusCode = 400;
-      throw new Error(
-        "It can not be aded because is another reservation with the same date"
-      );
-      {
-        cause: {
-          userReservationDates: userReservationDates;
-        }
-      }
-    } else {
-      const data = await Reservation.create(req.body);
-
-      res.status(200).send({
-        error: false,
-        data,
+      res.status(400).send({
+        error: true,
+        message: "Another reservation exists with overlapping dates.",
+        details: userReservationDates,
       });
+      return;
     }
+    const car = await Car.findById(req.body.carId);
+    if (!car) {
+      res.status(404).send({
+        error: true,
+        message: "Car not found",
+      });
+      return;
+    }
+
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
+    const diferenceInTime = endDate - startDate;
+    const differenceInDays = diferenceInTime / (1000 * 60 * 60 * 24);
+
+    if(differenceInDays <= 0){
+      res.status(400).send({
+        error: true,
+        message: "End date must be after start date"
+      })
+      return
+    }
+
+    req.body.rentalDays = differenceInDays 
+    req.body.amount = Number((differenceInDays * car.pricePerDay).toFixed(3));
+
+    const data = await Reservation.create(req.body)
+
+    res.status(200).send({
+          error: false,
+          data,
+        });
+
+    // if (userReservationDates) {
+    // //   res.errorStatusCode = 400;
+    // //   throw new Error(
+    // //     "Another reservation exists with overlapping dates."
+    // //   );
+    // //   {
+    // //     cause: {
+    // //       userReservationDates: userReservationDates;
+    // //     }
+    // //   }
+    // // } else {
+    // //   const data = await Reservation.create(req.body);
+
+    //   res.status(200).send({
+    //     error: false,
+    //     data,
+    //   });
+    // }
   },
   read: async (req, res) => {
     /*

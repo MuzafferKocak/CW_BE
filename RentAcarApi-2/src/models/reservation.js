@@ -49,22 +49,10 @@ const ReservationSchema = new mongoose.Schema(
     amount: {
       type: Number,
       required: true,
-      default: function () {
-        if (this.startDate && this.endDate) {
-          const start = new Date(this.startDate);
-          const end = new Date(this.endDate);
-          const differenceInTime = end - start; //* Milliseconds difference
-          const differenceInDays = differenceInTime / (1000 * 60 * 60 * 24); //* Convert to days
-
-          if (differenceInDays <= 0) {
-            throw new Error("End date must be after start date.");
-          }
-
-          return differenceInDays;
-        }
-        
-        return 0;
-      },
+    },
+    rentalDays: {
+      type: Number,
+      required: true,
     },
     createdId: {
       type: mongoose.Schema.Types.ObjectId,
