@@ -41,7 +41,7 @@ app.use(require("./src/middlewares/queryHandler"));
 
 /* ------------------------------------------------------- */
 //* Routes:
-
+app.use("/upload", express.static("./upload"));
 
 //* HomePath:
 app.all("/", (req, res) => {

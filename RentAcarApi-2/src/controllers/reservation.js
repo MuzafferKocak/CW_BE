@@ -109,24 +109,19 @@ module.exports = {
           data,
         });
 
-    // if (userReservationDates) {
-    // //   res.errorStatusCode = 400;
-    // //   throw new Error(
-    // //     "Another reservation exists with overlapping dates."
-    // //   );
-    // //   {
-    // //     cause: {
-    // //       userReservationDates: userReservationDates;
-    // //     }
-    // //   }
-    // // } else {
-    // //   const data = await Reservation.create(req.body);
-
-    //   res.status(200).send({
-    //     error: false,
-    //     data,
-    //   });
-    // }
+    //*sendMail
+    sendMail(
+      //* mail kime gönderilecek
+      data.email,
+      //*Mail basligi
+      "Welcome to our System",
+      //*mail icerigi
+      `
+      <h1>Welcome</h1>
+      <h2>${data.username}</h2>
+      <p>Welcome to our system</p>
+  `
+    );
   },
   read: async (req, res) => {
     /*

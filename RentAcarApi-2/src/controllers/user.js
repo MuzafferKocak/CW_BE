@@ -6,6 +6,7 @@
 //* User Controller:
 
 const User = require("../models/user");
+const sendMail = require("../middlewares/sendMail")
 
 module.exports = {
   list: async (req, res) => {
@@ -53,6 +54,20 @@ module.exports = {
         req.body.isAdmin=false
         */
     const data = await User.create(req.body);
+    
+    //*sendMail
+    sendMail(
+      //* mail kime gönderilecek
+      data.email,
+      //*Mail basligi
+      "Welcome to our System",
+      //*mail icerigi
+      `
+      <h1>Welcome</h1>
+      <h2>${data.username}</h2>
+      <p>Welcome to our system</p>
+  `
+    );
 
     res.status(201).send({
       error: false,
