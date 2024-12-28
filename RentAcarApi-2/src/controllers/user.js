@@ -54,18 +54,18 @@ module.exports = {
         req.body.isAdmin=false
         */
     const data = await User.create(req.body);
-    
+
     //*sendMail
     sendMail(
       //* mail kime gönderilecek
       data.email,
       //*Mail basligi
-      "Welcome to our System",
+      "Welcome",
       //*mail icerigi
       `
       <h1>Welcome</h1>
       <h2>${data.username}</h2>
-      <p>Welcome to our system</p>
+      <p>Welcome</p>
   `
     );
 

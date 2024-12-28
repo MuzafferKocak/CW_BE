@@ -8,14 +8,17 @@ const nodemailer = require("nodemailer");
 module.exports = function (to, title, message) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
-    auth: "mkojak75@gmail.com",
-    pass: "",
+    auth: {
+      user: "mkojak75@gmail.com",
+      pass: "lrpb hqlo hgzi qptd",
+    }
   });
 
   transporter.sendMail(
     {
       from: "mkojak75@gmail.com",
       to: to,
+      subject: title,
       text: message,
       html: message,
     },

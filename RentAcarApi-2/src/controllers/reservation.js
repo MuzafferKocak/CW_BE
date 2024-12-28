@@ -6,7 +6,9 @@
 //* Reservation Controller:
 
 const Reservation = require("../models/reservation");
-const Car = require("../models/car")
+const Car = require("../models/car");
+const sendMail = require("../middlewares/sendMail");
+const User = require("../models/user")
 
 module.exports = {
   list: async (req, res) => {
@@ -91,37 +93,42 @@ module.exports = {
     const diferenceInTime = endDate - startDate;
     const differenceInDays = diferenceInTime / (1000 * 60 * 60 * 24);
 
-    if(differenceInDays <= 0){
+    if (differenceInDays <= 0) {
       res.status(400).send({
         error: true,
-        message: "End date must be after start date"
-      })
-      return
+        message: "End date must be after start date",
+      });
+      return;
     }
 
-    req.body.rentalDays = differenceInDays 
+    req.body.rentalDays = differenceInDays;
     req.body.amount = Number((differenceInDays * car.pricePerDay).toFixed(3));
 
-    const data = await Reservation.create(req.body)
+    const data = await Reservation.create(req.body);
+
+    //* sendMail
+    const user = await User.findById(req.body.userId);
+    if (user && user.email) {
+      sendMail(
+        user.email,
+        "Reservation Confirmation",
+        `
+            <h1>Reservation Confirmed</h1>
+            <p>Thank you, ${user.username}, for reserving a car with us!</p>
+            <p><b>Car:</b> ${car.brand} ${car.model}</p>
+            <p><b>Rental Days:</b> ${differenceInDays} day(s)</p>
+            <p><b>Start Date:</b> ${req.body.startDate}</p>
+            <p><b>End Date:</b> ${req.body.endDate}</p>
+            <p><b>Total Amount:</b> $${req.body.amount}</p>
+            <p>We look forward to serving you. Have a safe drive!</p>
+        `
+      );
+    }
 
     res.status(200).send({
-          error: false,
-          data,
-        });
-
-    //*sendMail
-    sendMail(
-      //* mail kime gönderilecek
-      data.email,
-      //*Mail basligi
-      "Welcome to our System",
-      //*mail icerigi
-      `
-      <h1>Welcome</h1>
-      <h2>${data.username}</h2>
-      <p>Welcome to our system</p>
-  `
-    );
+      error: false,
+      data,
+    });
   },
   read: async (req, res) => {
     /*
