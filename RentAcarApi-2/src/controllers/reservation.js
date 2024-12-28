@@ -8,7 +8,7 @@
 const Reservation = require("../models/reservation");
 const Car = require("../models/car");
 const sendMail = require("../middlewares/sendMail");
-const User = require("../models/user")
+const User = require("../models/user");
 
 module.exports = {
   list: async (req, res) => {

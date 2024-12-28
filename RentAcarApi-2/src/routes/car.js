@@ -6,11 +6,14 @@
 const router = require("express").Router();
 const car = require("../controllers/car");
 const permission = require("../middlewares/permissions");
-const upload = require("../middlewares/upload")
+const upload = require("../middlewares/upload");
 /* ------------------------------------------------------- */
 //* routes/car:
 
-router.route("/").get(car.list).post(upload.array("images"),car.create);
+router
+  .route("/")
+  .get(car.list)
+  .post(upload.array("images"), permission.isStaffOrAdmin, car.create);
 
 router
   .route("/:id")

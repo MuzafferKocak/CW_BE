@@ -11,7 +11,7 @@ module.exports = function (to, title, message) {
     auth: {
       user: "mkojak75@gmail.com",
       pass: "lrpb hqlo hgzi qptd",
-    }
+    },
   });
 
   transporter.sendMail(

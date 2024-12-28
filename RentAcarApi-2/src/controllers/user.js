@@ -6,7 +6,7 @@
 //* User Controller:
 
 const User = require("../models/user");
-const sendMail = require("../middlewares/sendMail")
+const sendMail = require("../middlewares/sendMail");
 
 module.exports = {
   list: async (req, res) => {
