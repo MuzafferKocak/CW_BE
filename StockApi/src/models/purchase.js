@@ -35,10 +35,12 @@ const PurchaseSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+
     price: {
       type: Number,
       required: true,
     },
+
     priceTotal: {
       type: Number,
       required: true,

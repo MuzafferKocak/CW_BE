@@ -5,8 +5,8 @@
 const router = require("express").Router();
 /* ------------------------------------------------------- */
 //* routes/auth:
-
 const auth = require("../controllers/auth");
+
 
 //* URL: /auth
 
