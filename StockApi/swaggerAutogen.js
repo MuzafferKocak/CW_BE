@@ -48,8 +48,8 @@ const document = {
     Category: require("./src/models/category").schema.obj,
     Firm: require("./src/models/firm").schema.obj,
     Product: require("./src/models/product").schema.obj,
-    // Purchase: require("./src/models/purchase").schema.obj,
-    // Sale: require("./src/models/sale").schema.obj,
+    Purchase: require("./src/models/purchase").schema.obj,
+    Sale: require("./src/models/sale").schema.obj,
   },
 };
 

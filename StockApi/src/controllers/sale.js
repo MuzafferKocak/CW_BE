@@ -3,12 +3,11 @@
 |     //? Express - Stock Api
 -------------------------------------------------*/
 
-const Sale = require("../models/sale")
-
+const Sale = require("../models/sale");
 
 module.exports = {
-    list: async (req,res)=>{
-        /*
+  list: async (req, res) => {
+    /*
         #swagger.tags = ["Sales"]
         #swagger.summary = "List Sale"
         #swagger.description = `
@@ -22,9 +21,20 @@ module.exports = {
         `
     */
 
-    },
-    create: async (req,res)=>{
-        /*
+    const data = await res.getModelList(Sale, {}, [
+      "userId",
+      "brandId",
+      "productId",
+    ]);
+
+    res.status(200).send({
+      error: false,
+      details: await res.getModelListDetails(Sale),
+      data,
+    });
+  },
+  create: async (req, res) => {
+    /*
         #swagger.tags = ["Sales"]
         #swagger.summary = "Create Sale"
          #swagger.parameters['body'] = {
@@ -36,16 +46,34 @@ module.exports = {
         }
     */
 
-    },
-    read: async (req,res)=>{
-        /*
+    const data = await Sale.create(req.body);
+
+    res.status(201).send({
+      error: false,
+      data,
+    });
+  },
+
+  read: async (req, res) => {
+    /*
         #swagger.tags = ["Sales"]
         #swagger.summary = "Get Single Sale"
     */
 
-    },
-    update: async (req,res)=>{
-        /*
+    const data = await Sale.findOne({ _id: req.body.id }).populate([
+      "userId",
+      "brandId",
+      "productId",
+    ]);
+
+    res.status(200).send({
+      error: false,
+      data,
+    });
+  },
+
+  update: async (req, res) => {
+    /*
         #swagger.tags = ["Sales"]
         #swagger.summary = "Update Sale"
         #swagger.parameters['body'] = {
@@ -57,12 +85,27 @@ module.exports = {
         }
     */
 
-    },
-    delete: async (req,res)=>{
-        /*
+    const data = await Sale.updateOne({ _id: req.params.id }, req.body, {
+      runValidators: true,
+    });
+
+    res.status(202).send({
+      error: false,
+      new: await Sale.findOne({ _id: req.params.id }),
+      data,
+    });
+  },
+  delete: async (req, res) => {
+    /*
         #swagger.tags = ["Sales"]
         #swagger.summary = "Delete Sale"
     */
 
-    },
-}
+    const data = await Sale.deleteOne({ _id: req.params.id });
+
+    res.status(data.deletedCount ? 204 : 404).send({
+      error: !data.deletedCount,
+      data,
+    });
+  },
+};

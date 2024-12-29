@@ -149,7 +149,7 @@ module.exports = async function () {
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Boyner_Logo.jpg/800px-Boyner_Logo.jpg",
     address:
-      "B01-Z02 Maslak Büyükdere Cad. Uso Center 245/A, 34396 Sarıyer/İstanbul, Türkiye",
+      "B01-Z02 Maslak Büyükdere Cad. Uso Center 245/A, 34396 Sariyer/İstanbul, Türkiye",
   });
   await Firm.create({
     _id: "65343222b67e9681f937f303",
@@ -158,7 +158,7 @@ module.exports = async function () {
     image:
       "https://akillifabrikalar.com.tr/wp-content/uploads/2021/11/Floo2.png",
     address:
-      "Mahmutbey, Taşocağı Yolu Cad. No:24, 34218 Bağcılar/İstanbul, Türkiye",
+      "Mahmutbey, Taşocaği Yolu Cad. No:24, 34218 Bağcilar/İstanbul, Türkiye",
   });
   await Firm.create({
     _id: "65343222b67e9681f937f304",
@@ -174,7 +174,7 @@ module.exports = async function () {
     phone: "0212 444 22 22",
     image:
       "https://seeklogo.com/images/T/trendyol-logo-EE0DAED204-seeklogo.com.png",
-    address: "Maslak, Büyükdere Cd. No:237, 34485 Sarıyer/İstanbul, Türkiye",
+    address: "Maslak, Büyükdere Cd. No:237, 34485 Sariyer/İstanbul, Türkiye",
   });
   await Firm.create({
     _id: "65343222b67e9681f937f310",
@@ -183,7 +183,7 @@ module.exports = async function () {
     image:
       "https://i.pinimg.com/originals/af/d7/12/afd7126448b385ea3013d41797adde20.png",
     address:
-      "Mahmutbey, Taşocağı Yolu Cad. No:24, 34218 Bağcılar/İstanbul, Türkiye",
+      "Mahmutbey, Taşocaği Yolu Cad. No:24, 34218 Bağcilar/İstanbul, Türkiye",
   });
   await Firm.create({
     _id: "65343222b67e9681f937f315",
@@ -192,14 +192,14 @@ module.exports = async function () {
     image:
       "https://upload.wikimedia.org/wikipedia/tr/archive/3/32/20181016101908%21Morhipo.png",
     address:
-      "B01-Z02 Maslak Büyükdere Cad. Uso Center 245/A, 34396 Sarıyer/İstanbul, Türkiye",
+      "B01-Z02 Maslak Büyükdere Cad. Uso Center 245/A, 34396 Sariyer/İstanbul, Türkiye",
   });
   await Firm.create({
     _id: "65343222b67e9681f937f333",
     name: "ÜLker",
     phone: "2124445566",
     image: "https://www.ulker.com.tr/documents/ulker-logo.png",
-    address: "Kısıklı, Ferah Cd. No:1, 34692 Üsküdar/İstanbul, Türkiye",
+    address: "Kisikli, Ferah Cd. No:1, 34692 Üsküdar/İstanbul, Türkiye",
   });
   await Firm.create({
     _id: "65343222b67e9681f937f334",
@@ -215,7 +215,7 @@ module.exports = async function () {
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU1Mug9ruTOC1x8LGeNAr-ouWrWm29Z6u91QMU8ZfE&s",
     address:
-      "B01-Z02 Maslak Büyükdere Cad. Uso Center 245/A, 34396 Sarıyer/İstanbul, Türkiye",
+      "B01-Z02 Maslak Büyükdere Cad. Uso Center 245/A, 34396 Sariyer/İstanbul, Türkiye",
   });
 
   /* Product */
