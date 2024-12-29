@@ -33,7 +33,7 @@ app.use(express.json());
 //* Call static uploadFile:
 app.use("/upload", express.static("./upload"));
 
-// Check Authentication:
+//* Check Authentication:
 app.use(require("./src/middlewares/authentication"));
 
 //* Run Logger:
