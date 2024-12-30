@@ -11,6 +11,7 @@ const TokenSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      unique: true, //* one to one
       index: true,
     },
 
@@ -19,6 +20,7 @@ const TokenSchema = new mongoose.Schema(
       trim: true,
       required: true,
       index: true,
+      unique: true, 
     },
   },
   { collection: "tokens", timestamps: true }

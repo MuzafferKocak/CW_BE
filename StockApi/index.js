@@ -62,6 +62,14 @@ app.all("/", (req, res) => {
 //* Routes:
 app.use(require("./src/routes"));
 
+//* Not Founds
+app.all("*", (req, res)=>{
+  res.status(400).send({
+    error: true,
+    message: "Route is not found"
+  })
+})
+
 /* ------------------------------------------------------- */
 
 //* errorHandler:

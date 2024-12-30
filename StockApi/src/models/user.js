@@ -39,11 +39,11 @@ const UserSchema = new mongoose.Schema(
     },
     isStaff: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     isAdmin: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   { collection: "users", timestamps: true }
