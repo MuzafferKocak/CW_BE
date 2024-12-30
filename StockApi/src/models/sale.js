@@ -37,7 +37,14 @@ const SaleSchema = new mongoose.Schema(
     
     priceTotal: {
       type: Number,
-      required: true,
+      //*create
+      default: function () {
+        return this.quantity * this.price;
+      },
+      //* Update:
+      transform: function () {
+        return this.quantity * this.price;
+      },
     },
   },
   {
