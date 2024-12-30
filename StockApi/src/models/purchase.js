@@ -47,6 +47,10 @@ const PurchaseSchema = new mongoose.Schema(
       default: function () {
         return this.quantity * this.price;
       },
+      //* doest run if data not sent
+      set: function () {
+        return this.quantity * this.price;
+      }, 
       //* Update:
       transform: function () {
         return this.quantity * this.price;
