@@ -4,6 +4,7 @@
 -------------------------------------------------*/
 
 const User = require("../models/user");
+const {sendWelcomeEmail}= require("../services/emailService")
 
 module.exports = {
   list: async (req, res) => {
@@ -50,13 +51,29 @@ module.exports = {
         req.body.isStaff=false
         req.body.isAdmin=false
         */
+try {
+  const data = await User.create(req.body);
 
-    const data = await User.create(req.body);
+  //*Mail
+  await sendWelcomeEmail(data.email, data.username);
 
-    res.status(201).send({
-      error: false,
-      data,
-    });
+  res.status(201).send({
+    error: false,
+    data,
+  });
+
+} catch (error) {
+
+  res.status(500).send({
+    error: true,
+    message: "Email sending failed",
+    details: error.message,
+  })
+  
+}
+    
+
+    
   },
 
   read: async (req, res) => {

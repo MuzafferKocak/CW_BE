@@ -9,8 +9,8 @@ module.exports = function (to, title, message) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "mkojak75@gmail.com",
-      pass: "lrpb hqlo hgzi qptd",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
