@@ -8,14 +8,14 @@
 
 const nodemailer = require("nodemailer");
 
-module.exports = function (to, subject, message) {
+module.exports = function (to, subject, text, html) {
   //* Set Passive:
   // return true
 
   //? GoogleMail (gmail):
   // Google -> AccountHome -> Security -> Two-Step-Verify -> App-Passwords
   const mailSettings = {
-    service: "Gmail",
+    service: "gmail",
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   };
@@ -34,8 +34,8 @@ module.exports = function (to, subject, message) {
       from: mailSettings.user,
       to: to,
       subject: subject,
-      text: message,
-      html: message,
+      text: text,
+      html: html,
     },
     (error, info) => {
       error ? console.log(error) : console.log(info);
