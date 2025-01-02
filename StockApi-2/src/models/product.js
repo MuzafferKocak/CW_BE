@@ -26,7 +26,7 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
 
-    stock: {
+    quantity: {
       type: Number,
       defualt: 0,
       

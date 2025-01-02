@@ -4,6 +4,7 @@
 -------------------------------------------------*/
 
 const Sale = require("../models/sale");
+const Product = require("../models/product");
 
 module.exports = {
   list: async (req, res) => {
@@ -22,9 +23,9 @@ module.exports = {
     */
 
     const data = await res.getModelList(Sale, {}, [
-      "userId",
-      "brandId",
-      "productId",
+      { path: "userId", select: "username email" },
+      { path: "brandId", select: "name" },
+      { path: "productId", select: "name" },
     ]);
 
     res.status(200).send({
@@ -46,12 +47,31 @@ module.exports = {
         }
     */
 
-    const data = await Sale.create(req.body);
+    req.body.userId = req.user._id;
 
-    res.status(201).send({
-      error: false,
-      data,
-    });
+    const currentProduct = await Product.findOne({ _id: req.body.productId });
+
+    if (currentProduct.quantity >= req.body.quantity) {
+      const data = await Sale.create(req.body);
+
+      if (data) {
+        await Product.updateOne(
+          { _id: data.productId },
+          { $inc: { quantity: -data.quantity } }
+        );
+      }
+
+      res.status(201).send({
+        error: false,
+        data,
+      });
+    } else {
+      res.errorStatusCode = 422;
+      throw new Error(
+        `There is no enough prodcut-quantity for this sale, current quantity: ${currentProduct.quantity}`,
+        { cause: { currentProduct } }
+      );
+    }
   },
 
   read: async (req, res) => {
@@ -61,9 +81,9 @@ module.exports = {
     */
 
     const data = await Sale.findOne({ _id: req.body.id }).populate([
-      "userId",
-      "brandId",
-      "productId",
+      { path: "userId", select: "username email" },
+      { path: "brandId", select: "name" },
+      { path: "productId", select: "name" },
     ]);
 
     res.status(200).send({
@@ -85,6 +105,28 @@ module.exports = {
         }
     */
 
+    if (req.body.quantity) {
+      //* mevcut islemdeki adet bilgisini alirim
+      const currentSale = await Sale.findOne({ _id: req.params.id });
+
+      //* farkini hesaplayalim
+      const difference = req.body.quantity - currentSale.quantity;
+
+      //* farki prodcuta yansitalim
+      const updatedProduct = await Product.updateOne(
+        { _id: currentSale.productId, quantity: { $gte: difference } },
+        { $inc: { quantity: -difference } }
+      );
+
+      if (updatedProduct.modifiedCount == 0) {
+        res.errorStatusCode = 422;
+        throw new Error("There is not enough product-quantity for this sale.");
+      }
+
+      //* productId degismemeli
+      req.body.productId = currentPurchase.productId;
+    }
+
     const data = await Sale.updateOne({ _id: req.params.id }, req.body, {
       runValidators: true,
     });
@@ -101,11 +143,20 @@ module.exports = {
         #swagger.summary = "Delete Sale"
     */
 
+    const currentSale = await Sale.findOne({ _id: req.params.id });
+
     const data = await Sale.deleteOne({ _id: req.params.id });
+
+    if (data.deletedCount) {
+      await Product.updateOne(
+        { _id: currentSale.productId },
+        { $inc: { quantity: +currentSale.quantity } }
+      );
+    }
 
     res.status(data.deletedCount ? 204 : 404).send({
       error: !data.deletedCount,
-      message: 'Something went wrong, data might be deleted already.',
+      message: "Something went wrong, data might be deleted already.",
       data,
     });
   },

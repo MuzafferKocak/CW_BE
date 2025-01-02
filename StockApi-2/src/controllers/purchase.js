@@ -4,6 +4,7 @@
 -------------------------------------------------*/
 
 const Purchase = require("../models/purchase");
+const Product = require("../models/product");
 
 module.exports = {
   list: async (req, res) => {
@@ -22,10 +23,10 @@ module.exports = {
     */
 
     const data = await res.getModelList(Purchase, {}, [
-      "userId",
-      "firmId",
-      "brandId",
-      "productId",
+      { path: "userId", select: "username email" },
+      { path: "firmId", select: "name" },
+      { path: "brandId", select: "name" },
+      { path: "productId", select: "name" },
     ]);
 
     res.status(200).send({
@@ -48,7 +49,15 @@ module.exports = {
         }
     */
 
+    req.body.userId = req.user._id;
     const data = await Purchase.create(req.body);
+
+    if (data) {
+      await Product.updateOne(
+        { _id: data.productId },
+        { $in: { quantity: data.quantity } }
+      );
+    }
 
     res.status(201).send({
       error: false,
@@ -63,10 +72,10 @@ module.exports = {
     */
 
     const data = await Purchase.findOne({ _id: req.params.id }).populate([
-      "userId",
-      "firmId",
-      "brandId",
-      "productId",
+      { path: "userId", select: "username email" },
+      { path: "firmId", select: "name" },
+      { path: "brandId", select: "name" },
+      { path: "productId", select: "name" },
     ]);
 
     res.status(200).send({
@@ -88,6 +97,23 @@ module.exports = {
         }
     */
 
+    if (req.body?.quantity) {
+      //*mevcut islemdeki adet bilgisini alirim
+      const currentPurchase = await Purchase.findOne({ _id: req.params.id });
+
+      //* farkini hesaplayalim
+      const difference = req.body.quantity - currentPurchase.quantity;
+
+      //* farki prodcuta yansitalim
+      await Product.updateOne(
+        { _id: currentPurchase.productId },
+        { $inc: { quantity: +difference } }
+      );
+
+      //* productId degismemeli
+      req.body.productId = currentPurchase.productId;
+    }
+
     const data = await Purchase.updateOne({ _id: req.params.id }, req.body, {
       runValidators: true,
     });
@@ -105,11 +131,20 @@ module.exports = {
         #swagger.summary = "Delete Purchase"
     */
 
+    const currentPurchase = await Purchase.findOne({ _id: req.params.id });
+
     const data = await Purchase.deleteOne({ _id: req.params.id });
+
+    if (data.deletedCount) {
+      await Product.updateOne(
+        { _id: currentPurchase.productId },
+        { $inc: { quantity: -currentPurchase.quantity } }
+      );
+    }
 
     res.status(data.deletedCount ? 204 : 404).send({
       error: !data.deletedCount,
-      message: 'Something went wrong, data might be deleted already.',
+      message: "Something went wrong, data might be deleted already.",
       data,
     });
   },

@@ -54,6 +54,9 @@ module.exports = {
 try {
   const data = await User.create(req.body);
 
+  //*Auth Login
+  //*Simple Token
+
   //*Mail
   await sendWelcomeEmail(data.email, data.username);
 

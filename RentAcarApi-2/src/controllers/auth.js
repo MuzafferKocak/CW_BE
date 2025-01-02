@@ -144,7 +144,7 @@ module.exports = {
         }
       } else {
         res.errorStatusCode = 401;
-        throw new Error("sa");
+        throw new Error("JWT refresh data is wrong.");
       }
     } else {
       res.errorStatusCode = 401;

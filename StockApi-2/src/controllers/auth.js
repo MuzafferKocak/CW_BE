@@ -49,7 +49,7 @@ module.exports = {
           //* JWT */
 
           const accessData = user.toJSON(); //* Valuable data.
-          const accessTime = "15m";
+          const accessTime = "30m";
           const accessToken = jwt.sign(accessData, process.env.ACCESS_KEY, {
             expiresIn: accessTime,
           });
@@ -143,7 +143,7 @@ module.exports = {
         }
       } else {
         res.errorStatusCode = 401;
-        throw new Error("sa");
+        throw new Error("JWT refresh data is wrong.");
       }
     } else {
       res.errorStatusCode = 401;
