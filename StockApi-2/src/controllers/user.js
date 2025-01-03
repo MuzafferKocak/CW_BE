@@ -4,7 +4,7 @@
 -------------------------------------------------*/
 
 const User = require("../models/user");
-const {sendWelcomeEmail}= require("../services/emailService")
+const { sendWelcomeEmail } = require("../services/emailService");
 
 module.exports = {
   list: async (req, res) => {
@@ -51,32 +51,45 @@ module.exports = {
         req.body.isStaff=false
         req.body.isAdmin=false
         */
-try {
-  const data = await User.create(req.body);
+    try {
+      const data = await User.create(req.body);
 
-  //*Auth Login
-  //*Simple Token
+      //*Auth Login
+      //*Simple Token
+      const tokenData = await token.create({
+        userId: data._id,
+        token: passwordEncrypt(data._id + Date.now()),
+      });
 
-  //*Mail
-  await sendWelcomeEmail(data.email, data.username);
+      //*JWT
+      const accessToken = jwt.sign(data.toJSON(), process.env.ACCESS_KEY, {
+        expiresIn: "30m",
+      });
+      const refreshToken = jwt.sign(
+        { _id: data._id, password: data.password },
+        process.env.REFRESH_KEY,
+        { expiresIn: "3d" }
+      );
 
-  res.status(201).send({
-    error: false,
-    data,
-  });
+      //*Mail
+      await sendWelcomeEmail(data.email, data.username);
 
-} catch (error) {
-
-  res.status(500).send({
-    error: true,
-    message: "Email sending failed",
-    details: error.message,
-  })
-  
-}
-    
-
-    
+      res.status(201).send({
+        error: false,
+        token: tokenData.token,
+        bearer: {
+          access: accessToken,
+          refresh: refreshToken,
+        },
+        data,
+      });
+    } catch (error) {
+      res.status(500).send({
+        error: true,
+        message: "Email sending failed",
+        details: error.message,
+      });
+    }
   },
 
   read: async (req, res) => {
@@ -134,7 +147,7 @@ try {
 
     res.status(data.deletedCount ? 204 : 404).send({
       error: !data.deletedCount,
-      message: 'Something went wrong, data might be deleted already.',
+      message: "Something went wrong, data might be deleted already.",
       data,
     });
   },
