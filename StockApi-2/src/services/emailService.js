@@ -5,7 +5,7 @@
 
 const sendEmail = require("../helpers/sendMail");
 
-//* Hoş geldiniz e-postası
+//* Hoş geldiniz e-mail
 const sendWelcomeEmail = async (userEmail, userName) => {
   const subject = "Welcome to Our App!";
   const text = `
@@ -98,7 +98,7 @@ const sendWelcomeEmail = async (userEmail, userName) => {
               <a class="button" href="https://your-app-link.com">Get Started</a>
           </div>
           <div class="email-footer">
-              <p>&copy; 2024 Your Company. All rights reserved.</p>
+              <p>&copy; 2024 MeK. All rights reserved.</p>
           </div>
       </div>
   </body>
