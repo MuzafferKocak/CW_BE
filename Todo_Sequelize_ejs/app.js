@@ -30,15 +30,18 @@ app.set("view engine", "ejs")
 app.set("views", "./public")
 /* ------------------------------------------------------- */
 //* Routes
-app.all("/", (req, res)=>{
+app.all('/', (req, res) => {
 
-  //  res.render("index.ejs")
 
-  res.send({
-    
-    
-  })
+  // res.render('index.ejs')
+  // res.render('index')
+
+  res.send(`
+  <p><a href="/view">Todo Template</a></p>
+  <p><a href="/api">Todo RestAPI</a></p>
+  `)
 })
+
 app.use(require("./app/routes/todo.router.view"));
 app.use(require("./app/routes/todo.router.api"));
 

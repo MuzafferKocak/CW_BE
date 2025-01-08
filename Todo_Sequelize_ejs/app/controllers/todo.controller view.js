@@ -6,14 +6,19 @@
 
 const Todo = require("../models/todo.model");
 
+const PRIORITIES = {
+  "-1": "low",
+  0: "Normal",
+  1: "High",
+};
+
 module.exports = {
   list: async (req, res) => {
-    // const data = await Todo.findAll()
-    // const data = await Todo.findAll({
-    //     attributes: ['title', 'description', 'priority'], // Select Fields
-    //     where: { priority: -1 } // Filters
-    // })
-    const data = await Todo.findAndCountAll();
+    res.render("index", {
+      todos: data.rows,
+      count: data.count,
+      priorities: PRIORITIES,
+    });
 
     res.status(200).send({
       error: false,
@@ -24,15 +29,7 @@ module.exports = {
   //* CRUD ->
 
   create: async (req, res) => {
-    // const receivedData = req.body
-    // console.log(receivedData)
-
-    // const data = await Todo.create({
-    //     title: receivedData.title,
-    //     description: receivedData.description,
-    //     priority: receivedData.priority,
-    //     isDone: receivedData.isDone
-    // })
+   
     const data = await Todo.create(req.body);
 
     res.status(201).send({
