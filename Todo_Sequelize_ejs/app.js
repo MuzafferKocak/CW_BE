@@ -26,15 +26,21 @@ require("express-async-errors");
 //* npm i ejs
 app.set("view engine", "ejs")
 //* default template folder : ./views
+
+app.set("views", "./public")
 /* ------------------------------------------------------- */
 //* Routes
 app.all("/", (req, res)=>{
+
+  //  res.render("index.ejs")
+
   res.send({
-    error: false,
-    message: "Welcome to EJS Todo Project"
+    
+    
   })
 })
-app.use(require("./app/routes/todo.router"));
+app.use(require("./app/routes/todo.router.view"));
+app.use(require("./app/routes/todo.router.api"));
 
 /* ------------------------------------------------------- */
 const errorHandler = (err, req, res, next) => {

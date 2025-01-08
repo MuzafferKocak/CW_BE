@@ -8,7 +8,7 @@
 const router = require("express").Router();
 
 //* Call todo.controller:
-const todo = require("../controllers/todo.controller");
+const todo = require("../controllers/todo.controller.api");
 
 //* LIST TODOS:
 // router.get("/", todo.list);
@@ -22,16 +22,14 @@ const todo = require("../controllers/todo.controller");
 // //* DELETE TODO:
 // router.delete("/:id", todo.delete);
 
+router.route("/").get(todo.list).post(todo.create);
 
-router.route("/")
-.get(todo.list)
-.post(todo.create)
-
-router.route("/:id")
-.get(todo.read)
-.put(todo.update)
-.patch(todo.update)  //* Tam data güncellemesi
-.delete(todo.delete) //* Kısmi data güncellemesi
+router
+  .route("/:id")
+  .get(todo.read)
+  .put(todo.update)
+  .patch(todo.update) //* Tam data güncellemesi
+  .delete(todo.delete); //* Kısmi data güncellemesi
 
 //* Export:
 module.exports = router;
