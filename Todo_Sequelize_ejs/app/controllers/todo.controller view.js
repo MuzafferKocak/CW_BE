@@ -14,6 +14,9 @@ const PRIORITIES = {
 
 module.exports = {
   list: async (req, res) => {
+
+    const data = await Todo.findAndCountAll()
+
     res.render("index", {
       todos: data.rows,
       count: data.count,
@@ -29,7 +32,6 @@ module.exports = {
   //* CRUD ->
 
   create: async (req, res) => {
-   
     const data = await Todo.create(req.body);
 
     res.status(201).send({
