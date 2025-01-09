@@ -13,6 +13,8 @@ module.exports = {
   list: async (req, res) => {
     const data = await res.getModelList(BlogPost,{}, "blogCategoryId");
 
+   
+
     res.status(200).send({
       error: false,
       count: data.length,

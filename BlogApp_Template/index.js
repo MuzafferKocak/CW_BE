@@ -12,38 +12,49 @@ const PORT = process.env.PORT || 8000;
 require("express-async-errors");
 
 const session = require("cookie-session");
+const { openDelimiter, closeDelimiter } = require("ejs");
 app.use(
   session({ secret: process.env.SECRET_KEY || "secret_keys_for_cookies" }),
 );
 /* ------------------------------------------------------- */
-// Accept json data & convert to object:
+//* Accept json data & convert to object:
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB with Mongoose:
+//* default delimeter: <% %> 
+//? exp delimeters << >> {{ }} {% %}
+app.set("view engine", "ejs")
+app.set("view options", {
+  // delimeter: "%",
+  openDelimiter: "{",
+  closeDelimiter: "}"
+})
+app.set("views", "./public")
+
+//* Connect to MongoDB with Mongoose:
 require("./src/dbConnection");
 
-// Searching&Sorting&Pagination:
+//* Searching&Sorting&Pagination:
 app.use(require("./src/middlewares/queryHandler"));
 
-// StaticFiles:
+//* StaticFiles:
 app.use("/assets", express.static("./public/assets"));
 
-// HomePage:
+//* HomePage:
 app.all("/", (req, res) => {
   res.redirect("/blog/post");
   // res.send('<h1>Welcome to Blog APP</h1>')
 });
 
-// Routes: // VIEWS:
+//* Routes: // VIEWS:
 app.use("/blog", require("./src/routes/view"));
 
-// Routes: // API:
+//* Routes: // API:
 app.use("/api/blog", require("./src/routes/api"));
 
-// errorHandler:
+//* errorHandler:
 app.use(require("./src/middlewares/errorHandler"));
 
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
 
-//require("./src/helpers/sync2")();
+// require("./src/helpers/sync2")();

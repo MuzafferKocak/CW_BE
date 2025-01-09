@@ -29,6 +29,7 @@ router.get("/:categoryId", BlogCategory.read);
 
 // Update a specific category by ID
 router.put("/:categoryId/update", BlogCategory.update);
+router.get("/:categoryId/update", BlogCategory.update);
 router.patch("/:categoryId/update", BlogCategory.update);
 
 // Delete a specific category by ID
