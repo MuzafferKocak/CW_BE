@@ -1,26 +1,27 @@
-<!-- header -->
-{%- include("components/header.ejs") %}
-        <!-- Blog Categories -->
-        {%- include("components/categories.ejs") %}   
-    </div>
-    <!-- main start -->
-    <main class="container">
-        <div class="row g-5">
-            <div class="col-md-8">
-                <div class="admin-area text-end">
-                    <a class="btn btn-primary" href="/blog/post/create">New Post</a>
-                </div>
-                <h3 class="pb-4 fst-italic border-bottom">
-                    Welcome to my blog site.
-                </h3>
-                <!-- BlogPosts -->
-                {%- include("components/posts.ejs") %}
-                <!-- Pagination -->
-                {%- include("components/pagination.ejs") %}
+<!-- Header -->
+{%- include('components/header.ejs') %}
+<!-- Blog Categories -->
+{%- include('components/categories.ejs') %}
+
+</div>
+<!-- main start -->
+<main class="container">
+    <div class="row g-5">
+        <div class="col-md-8">
+            <div class="admin-area text-end">
+                <a class="btn btn-primary" href="/blog/post/create">New Post</a>
             </div>
-            <!-- Recent posts -->
-            {%- include("components/recentPosts.ejs") %}
+            <h3 class="pb-4 fst-italic border-bottom">
+                Welcome to my blog site.
+            </h3>
+            <!-- BlogPosts -->
+            {%- include('components/posts.ejs') %}
+            <!-- Pagination -->
+            {%- include('components/pagination.ejs') %}
         </div>
-    </main>
-    <!-- main end -->
-    {%- include("components/footer.ejs") %}
+        <!-- Recent posts -->
+        {%- include('components/recentPosts.ejs') %}
+    </div>
+</main>
+<!-- main end -->
+{%- include('components/footer.ejs') %}
