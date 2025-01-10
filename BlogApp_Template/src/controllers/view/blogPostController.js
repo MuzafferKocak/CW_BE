@@ -12,13 +12,15 @@ const BlogCategory = require("../../models/blogCategoryModel")
 
 module.exports = {
   list: async (req, res) => {
-    const posts = await res.getModelList(BlogPost,{}, "blogCategoryId");
+    const posts = await res.getModelList(BlogPost,{isPublished:true}, "blogCategoryId");
 
     const categories = await BlogCategory.find({})
 
     const recentPosts = await BlogPost.find().sort({createdAt:'desc'}).limit(3)
 
-    res.render("index", {categories, posts, recentPosts})
+    const details = await res.getModelListDetails(BlogPost, {isPublished: true})
+
+    res.render("index", {categories, posts, recentPosts, details})
     
     // res.status(200).send({
     //   error: false,
