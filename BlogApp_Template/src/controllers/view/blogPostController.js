@@ -4,53 +4,67 @@
 ------------------------------------------------------- */
 
 const BlogPost = require("../../models/blogPostModel");
-const BlogCategory = require("../../models/blogCategoryModel")
-
+const BlogCategory = require('../../models/blogCategoryModel');
+const removeQueryParam = require("../../helpers/removeQueryParam");
 // ------------------------------------------
 // BlogPost
 // ------------------------------------------
 
 module.exports = {
   list: async (req, res) => {
-    const posts = await res.getModelList(BlogPost,{isPublished:true}, "blogCategoryId");
+
+    const posts = await res.getModelList(BlogPost, { isPublished: true }, "blogCategoryId"); // 10
 
     const categories = await BlogCategory.find({})
 
-    const recentPosts = await BlogPost.find().sort({createdAt:'desc'}).limit(3)
+    const recentPosts = await BlogPost.find().sort({ createdAt: 'desc' }).limit(3)
 
-    const details = await res.getModelListDetails(BlogPost, {isPublished: true})
+    const details = await res.getModelListDetails(BlogPost, { isPublished: true })
 
-    res.render("index", {categories, posts, recentPosts, details})
-    
-    // res.status(200).send({
-    //   error: false,
-    //   count: data.length,
-    //   details: await res.getModelListDetails(BlogPost),
-    //   result: data,
-    // });
+    //req.originalUrl
+
+    let pageUrl = '';
+    const queryString = req.originalUrl.split("?")[1]
+
+    if (queryString) {
+      pageUrl = removeQueryParam(queryString, "page")
+    }
+
+    pageUrl = pageUrl ? "&" + pageUrl : "";
+
+    console.log(pageUrl);
+
+    res.render('index', { categories, posts, recentPosts, details, pageUrl })
   },
 
   create: async (req, res) => {
-    const data = await BlogPost.create(req.body);
+    
+    if (req.method == "POST") {
+      
+      req.body.userId = req.session?.user.id
 
-    res.status(201).send({
-      error: false,
-      body: req.body,
-      result: data,
-    });
+      const data = await BlogPost.create(req.body);
+
+      if(data) res.redirect('/blog/post')
+
+    } else {
+
+      const categories = await BlogCategory.find()
+
+      res.render("postForm", { categories })
+    }
+
+
+
   },
 
   read: async (req, res) => {
-    // req.params.postId
-    // const data = await BlogPost.findById(req.params.postId)
-    const data = await BlogPost.findOne({ _id: req.params.postId }).populate(
-      "blogCategoryId",
-    ); // get Primary Data
 
-    res.status(200).send({
-      error: false,
-      result: data,
-    });
+    const post = await BlogPost.findOne({ _id: req.params.postId }).populate(
+      "blogCategoryId",
+    );
+
+    res.render("postRead", { post })
   },
 
   update: async (req, res) => {
