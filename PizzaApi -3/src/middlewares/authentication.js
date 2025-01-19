@@ -1,5 +1,4 @@
 "use strict";
-const { JsonWebTokenError } = require("jsonwebtoken");
 /*------------------------------------------------
 |     //? Express - Pizza Api
 -------------------------------------------------*/

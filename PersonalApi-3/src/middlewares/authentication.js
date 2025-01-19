@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
   //- bu middlaware "Token..." formatinda gelen headerlari kontrol eder
 
   const auth = req.headers?.authorization || null; //* Token ....tokenKey....
-  const tokenKey = auth ? auth.split("") : null; //* ["Token", "....TokenKey..."]
+  const tokenKey = auth ? auth.split(" ") : null; //* ["Token", "....TokenKey..."]
 
   if (tokenKey && tokenKey[0] == "Token") {
     const tokenData = await Token.findOne({ token: tokenKey[1] }).populate(
